@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExportHistory">
+    <option name="exports">
+      <list>
+        <ExportEntry>
+          <option name="fileCount" value="8" />
+          <option name="filePaths">
+            <list>
+              <option value="$PROJECT_DIR$/build.gradle.kts" />
+              <option value="$PROJECT_DIR$/app/src/main/java/com/ndumas/greentwin" />
+              <option value="$PROJECT_DIR$/app/build.gradle.kts" />
+              <option value="$PROJECT_DIR$/gradle/libs.versions.toml" />
+              <option value="$PROJECT_DIR$/settings.gradle.kts" />
+            </list>
+          </option>
+          <option name="sizeBytes" value="10574" />
+          <option name="summary" value="8 files, 10.3 KB, ~3,109 tokens" />
+          <option name="timestamp" value="1760435014790" />
+          <option name="tokens" value="3109" />
+        </ExportEntry>
+      </list>
+    </option>
+  </component>
+</project>
