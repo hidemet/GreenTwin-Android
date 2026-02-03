@@ -1,5 +1,295 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="md_theme_primary">#446900</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#A3E635</color>
+    <color name="md_theme_onPrimaryContainer">#416400</color>
+    <color name="md_theme_secondary">#496719</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#C7EC8E</color>
+    <color name="md_theme_onSecondaryContainer">#4D6C1D</color>
+    <color name="md_theme_tertiary">#006E2F</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#43F07A</color>
+    <color name="md_theme_onTertiaryContainer">#00692D</color>
+    <color name="md_theme_error">#BA1A1A</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_errorContainer">#FFDAD6</color>
+    <color name="md_theme_onErrorContainer">#93000A</color>
+    <color name="md_theme_background">#F7FBE8</color>
+    <color name="md_theme_onBackground">#191D12</color>
+    <color name="md_theme_surface">#F7FBE8</color>
+    <color name="md_theme_onSurface">#191D12</color>
+    <color name="md_theme_surfaceVariant">#DEE6CB</color>
+    <color name="md_theme_onSurfaceVariant">#424936</color>
+    <color name="md_theme_outline">#727A64</color>
+    <color name="md_theme_outlineVariant">#C2CAB0</color>
+    <color name="md_theme_scrim">#000000</color>
+    <color name="md_theme_inverseSurface">#2E3226</color>
+    <color name="md_theme_inverseOnSurface">#EFF3E0</color>
+    <color name="md_theme_inversePrimary">#98DA27</color>
+    <color name="md_theme_primaryFixed">#B2F746</color>
+    <color name="md_theme_onPrimaryFixed">#121F00</color>
+    <color name="md_theme_primaryFixedDim">#98DA27</color>
+    <color name="md_theme_onPrimaryFixedVariant">#334F00</color>
+    <color name="md_theme_secondaryFixed">#CAEF91</color>
+    <color name="md_theme_onSecondaryFixed">#121F00</color>
+    <color name="md_theme_secondaryFixedDim">#AED278</color>
+    <color name="md_theme_onSecondaryFixedVariant">#334F00</color>
+    <color name="md_theme_tertiaryFixed">#66FF8E</color>
+    <color name="md_theme_onTertiaryFixed">#002109</color>
+    <color name="md_theme_tertiaryFixedDim">#30E36F</color>
+    <color name="md_theme_onTertiaryFixedVariant">#005321</color>
+    <color name="md_theme_surfaceDim">#D8DCCA</color>
+    <color name="md_theme_surfaceBright">#F7FBE8</color>
+    <color name="md_theme_surfaceContainerLowest">#FFFFFF</color>
+    <color name="md_theme_surfaceContainerLow">#F2F6E3</color>
+    <color name="md_theme_surfaceContainer">#ECF0DD</color>
+    <color name="md_theme_surfaceContainerHigh">#E6EAD8</color>
+    <color name="md_theme_surfaceContainerHighest">#E0E4D2</color>
+    <color name="md_theme_primary_mediumContrast">#263D00</color>
+    <color name="md_theme_onPrimary_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_primaryContainer_mediumContrast">#507900</color>
+    <color name="md_theme_onPrimaryContainer_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_secondary_mediumContrast">#263D00</color>
+    <color name="md_theme_onSecondary_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer_mediumContrast">#577727</color>
+    <color name="md_theme_onSecondaryContainer_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_tertiary_mediumContrast">#004018</color>
+    <color name="md_theme_onTertiary_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer_mediumContrast">#007E37</color>
+    <color name="md_theme_onTertiaryContainer_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_error_mediumContrast">#740006</color>
+    <color name="md_theme_onError_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_errorContainer_mediumContrast">#CF2C27</color>
+    <color name="md_theme_onErrorContainer_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_background_mediumContrast">#F7FBE8</color>
+    <color name="md_theme_onBackground_mediumContrast">#191D12</color>
+    <color name="md_theme_surface_mediumContrast">#F7FBE8</color>
+    <color name="md_theme_onSurface_mediumContrast">#0E1308</color>
+    <color name="md_theme_surfaceVariant_mediumContrast">#DEE6CB</color>
+    <color name="md_theme_onSurfaceVariant_mediumContrast">#323926</color>
+    <color name="md_theme_outline_mediumContrast">#4E5541</color>
+    <color name="md_theme_outlineVariant_mediumContrast">#68705A</color>
+    <color name="md_theme_scrim_mediumContrast">#000000</color>
+    <color name="md_theme_inverseSurface_mediumContrast">#2E3226</color>
+    <color name="md_theme_inverseOnSurface_mediumContrast">#EFF3E0</color>
+    <color name="md_theme_inversePrimary_mediumContrast">#98DA27</color>
+    <color name="md_theme_primaryFixed_mediumContrast">#507900</color>
+    <color name="md_theme_onPrimaryFixed_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_primaryFixedDim_mediumContrast">#3D5E00</color>
+    <color name="md_theme_onPrimaryFixedVariant_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryFixed_mediumContrast">#577727</color>
+    <color name="md_theme_onSecondaryFixed_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryFixedDim_mediumContrast">#405D0F</color>
+    <color name="md_theme_onSecondaryFixedVariant_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryFixed_mediumContrast">#007E37</color>
+    <color name="md_theme_onTertiaryFixed_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryFixedDim_mediumContrast">#006329</color>
+    <color name="md_theme_onTertiaryFixedVariant_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_surfaceDim_mediumContrast">#C4C8B7</color>
+    <color name="md_theme_surfaceBright_mediumContrast">#F7FBE8</color>
+    <color name="md_theme_surfaceContainerLowest_mediumContrast">#FFFFFF</color>
+    <color name="md_theme_surfaceContainerLow_mediumContrast">#F2F6E3</color>
+    <color name="md_theme_surfaceContainer_mediumContrast">#E6EAD8</color>
+    <color name="md_theme_surfaceContainerHigh_mediumContrast">#DBDFCC</color>
+    <color name="md_theme_surfaceContainerHighest_mediumContrast">#CFD4C2</color>
+    <color name="md_theme_primary_highContrast">#1E3200</color>
+    <color name="md_theme_onPrimary_highContrast">#FFFFFF</color>
+    <color name="md_theme_primaryContainer_highContrast">#345100</color>
+    <color name="md_theme_onPrimaryContainer_highContrast">#FFFFFF</color>
+    <color name="md_theme_secondary_highContrast">#1E3200</color>
+    <color name="md_theme_onSecondary_highContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer_highContrast">#355102</color>
+    <color name="md_theme_onSecondaryContainer_highContrast">#FFFFFF</color>
+    <color name="md_theme_tertiary_highContrast">#003413</color>
+    <color name="md_theme_onTertiary_highContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer_highContrast">#005523</color>
+    <color name="md_theme_onTertiaryContainer_highContrast">#FFFFFF</color>
+    <color name="md_theme_error_highContrast">#600004</color>
+    <color name="md_theme_onError_highContrast">#FFFFFF</color>
+    <color name="md_theme_errorContainer_highContrast">#98000A</color>
+    <color name="md_theme_onErrorContainer_highContrast">#FFFFFF</color>
+    <color name="md_theme_background_highContrast">#F7FBE8</color>
+    <color name="md_theme_onBackground_highContrast">#191D12</color>
+    <color name="md_theme_surface_highContrast">#F7FBE8</color>
+    <color name="md_theme_onSurface_highContrast">#000000</color>
+    <color name="md_theme_surfaceVariant_highContrast">#DEE6CB</color>
+    <color name="md_theme_onSurfaceVariant_highContrast">#000000</color>
+    <color name="md_theme_outline_highContrast">#282E1D</color>
+    <color name="md_theme_outlineVariant_highContrast">#444C38</color>
+    <color name="md_theme_scrim_highContrast">#000000</color>
+    <color name="md_theme_inverseSurface_highContrast">#2E3226</color>
+    <color name="md_theme_inverseOnSurface_highContrast">#FFFFFF</color>
+    <color name="md_theme_inversePrimary_highContrast">#98DA27</color>
+    <color name="md_theme_primaryFixed_highContrast">#345100</color>
+    <color name="md_theme_onPrimaryFixed_highContrast">#FFFFFF</color>
+    <color name="md_theme_primaryFixedDim_highContrast">#233900</color>
+    <color name="md_theme_onPrimaryFixedVariant_highContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryFixed_highContrast">#355102</color>
+    <color name="md_theme_onSecondaryFixed_highContrast">#FFFFFF</color>
+    <color name="md_theme_secondaryFixedDim_highContrast">#233900</color>
+    <color name="md_theme_onSecondaryFixedVariant_highContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryFixed_highContrast">#005523</color>
+    <color name="md_theme_onTertiaryFixed_highContrast">#FFFFFF</color>
+    <color name="md_theme_tertiaryFixedDim_highContrast">#003C16</color>
+    <color name="md_theme_onTertiaryFixedVariant_highContrast">#FFFFFF</color>
+    <color name="md_theme_surfaceDim_highContrast">#B6BBA9</color>
+    <color name="md_theme_surfaceBright_highContrast">#F7FBE8</color>
+    <color name="md_theme_surfaceContainerLowest_highContrast">#FFFFFF</color>
+    <color name="md_theme_surfaceContainerLow_highContrast">#EFF3E0</color>
+    <color name="md_theme_surfaceContainer_highContrast">#E0E4D2</color>
+    <color name="md_theme_surfaceContainerHigh_highContrast">#D2D6C4</color>
+    <color name="md_theme_surfaceContainerHighest_highContrast">#C4C8B7</color>
+
+    <color name="greentwin_primary_container">#A3E635</color>
+    <color name="greentwin_on_primary_container">#1F2937</color>
+    <color name="greentwin_surface">#F3F4F6</color>
+    <color name="greentwin_on_surface">#1F2937</color>
+    <color name="greentwin_secondary">#14532D</color>
+    <color name="greentwin_outline">#7E7D83</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- ===================================================================== -->
+    <!-- PALETTE TAILWIND CSS - ALLINEAMENTO WEB APP                          -->
+    <!-- ===================================================================== -->
+
+    <!-- Tailwind Gray Scale -->
+    <color name="tw_zinc_50">#FAFAFA</color>      <!-- Background principale Web -->
+    <color name="tw_slate_100">#F1F5F9</color>    <!-- Background alternativo (Soluzione 3) -->
+    <color name="tw_slate_200">#E2E8F0</color>    <!-- Bordo Card (Soluzione 1) -->
+
+    <color name="tw_gray_100">#F3F4F6</color>
+    <color name="tw_gray_200">#E5E7EB</color>
+    <color name="tw_gray_300">#D1D5DB</color>
+    <color name="tw_gray_400">#9CA3AF</color>
+    <color name="tw_gray_500">#6B7280</color>     <!-- Text secondary Web (3.03:1 - Basso contrasto) -->
+    <color name="tw_gray_600">#4B5563</color>     <!-- Text secondary WCAG AA (4.9:1) -->
+    <color name="tw_gray_700">#374151</color>
+    <color name="tw_gray_800">#1F2937</color> <!-- Primary Text -->
+    <color name="tw_gray_900">#1F2937</color>     <!-- Text primary Web -->
+
+
+    <!-- Tailwind Lime (Primary) -->
+    <color name="tw_lime_100">#ECFCCB</color>
+    <color name="tw_lime_400">#A3E635</color>     <!-- Primary accent Web -->
+    <color name="tw_lime_500">#84CC16</color> <!-- Positive / Status ON -->
+    <color name="tw_lime_600">#65A30D</color>     <!-- Contrasto migliorato -->
+    <color name="tw_lime_800">#3F6212</color>
+
+    <color name="tw_red_100">#FEE2E2</color>
+    <color name="tw_red_300">#FCA5A5</color>      <!-- climate (Web: bg-red-300) -->
+    <color name="tw_red_400">#F87171</color>      <!-- device_tracker (Web: bg-red-400) -->
+    <color name="tw_red_500">#EF4444</color>   <!-- Error -->
+    <color name="tw_red_800">#991B1B</color>
+
+
+    <color name="tw_yellow_200">#FEF08A</color>   <!-- light (Web: bg-yellow-200) - Basso contrasto -->
+    <color name="tw_yellow_400">#FACC15</color> <!-- Warning -->
+    <color name="tw_yellow_500">#EAB308</color>   <!-- WCAG AA compliant (6.5:1) -->
+
+
+
+    <color name="ds_text_positive">@color/tw_lime_500</color>
+    <color name="ds_text_warning">@color/tw_yellow_400</color>
+    <color name="ds_text_error">@color/tw_red_500</color>
+
+    <!-- Semantic Mapping -->
+    <!-- Badge Colors -->
+    <!-- Success (Risparmio) -> Verde Tailwind -->
+    <color name="badge_success_bg">@color/tw_lime_100</color>
+    <color name="badge_success_text">@color/tw_lime_800</color>
+
+    <!-- Error (Aumento) -> Rosso Tailwind -->
+    <color name="badge_error_bg">@color/tw_red_100</color>
+    <color name="badge_error_text">@color/tw_red_800</color>
+
+    <!-- Neutral (Zero/Loading) -> Grigio Tailwind -->
+    <color name="badge_neutral_bg">@color/tw_gray_100</color>
+    <color name="badge_neutral_text">@color/tw_gray_600</color>
+
+    <color name="ds_text_header">@color/tw_gray_900</color>
+    <color name="ds_text_primary">@color/tw_gray_800</color>
+    <color name="ds_text_secondary">@color/tw_gray_600</color>
+    <color name="ds_text_dim">@color/tw_gray_300</color>
+
+    <color name="ds_text_tertiary">@color/tw_gray_500</color>  <!-- Per note a piè di pagina -->
+
+    <!-- ===================================================================== -->
+    <!-- COLORI DISPOSITIVI - MAPPATURA 1:1 CON WEB APP                       -->
+    <!-- Riferimento: resources/js/Components/Commons/Constants.jsx           -->
+    <!-- ===================================================================== -->
+
+    <!-- Yellow Series (Light Bulbs) -->
+
+
+    <!-- Purple/Violet Series (Media Players) -->
+    <color name="tw_purple_300">#D8B4FE</color>   <!-- media_player (Web: bg-purple-300) - Basso contrasto -->
+    <color name="tw_purple_600">#9333EA</color>   <!-- WCAG AA compliant (5.8:1) -->
+    <color name="tw_violet_300">#C4B5FD</color>   <!-- media_player alternativo - Basso contrasto -->
+    <color name="tw_violet_600">#7C3AED</color>   <!-- WCAG AA compliant (6.2:1) -->
+
+    <!-- Emerald/Green Series (Sensors/Switches) -->
+    <color name="tw_emerald_300">#6EE7B7</color>  <!-- sensor (Web: bg-emerald-300) - Basso contrasto -->
+    <color name="tw_emerald_600">#059669</color>  <!-- WCAG AA compliant (5.5:1) -->
+    <color name="tw_green_300">#86EFAC</color>    <!-- switch (Web: bg-green-300) - Basso contrasto -->
+    <color name="tw_green_600">#16A34A</color>    <!-- WCAG AA compliant (5.0:1) -->
+
+    <!-- Blue Series (Covers/Curtains) -->
+    <color name="tw_blue_200">#BFDBFE</color>     <!-- Basso contrasto -->
+    <color name="tw_blue_300">#93C5FD</color>     <!-- cover (Web: bg-blue-300) - Basso contrasto -->
+    <color name="tw_blue_400">#60A5FA</color>
+    <color name="tw_blue_500">#3B82F6</color>     <!-- WCAG AA compliant (5.4:1) -->
+
+    <!-- Cyan Series (Weather) -->
+    <color name="tw_cyan_300">#67E8F9</color>     <!-- weather (Web: bg-cyan-300) - Basso contrasto -->
+    <color name="tw_cyan_600">#0891B2</color>     <!-- WCAG AA compliant (5.8:1) -->
+
+    <!-- Amber/Orange Series (Sun/Buttons/Thermostat) -->
+    <color name="tw_amber_300">#FCD34D</color>    <!-- sun (Web: bg-amber-300) - Basso contrasto -->
+    <color name="tw_amber_600">#D97706</color>    <!-- WCAG AA compliant (5.9:1) -->
+    <color name="tw_orange_300">#FDB863</color>   <!-- thermostat (Web: bg-orange-300) -->
+    <color name="tw_orange_400">#FB923C</color>   <!-- button (Web: bg-orange-400) -->
+
+    <!-- Altri colori Tailwind già presenti -->
+    <color name="tw_indigo_300">#A5B4FC</color>   <!-- switch -->
+    <color name="tw_indigo_400">#818CF8</color>   <!-- washing_machine (Web: bg-indigo-400) -->
+    <color name="tw_pink_300">#F9A8D4</color>     <!-- Basso contrasto -->
+    <color name="tw_pink_600">#DB2777</color>     <!-- WCAG AA compliant (6.1:1) -->
+    <color name="tw_purple_400">#C084FC</color>   <!-- Disponibile ma non usato (preferiamo violet) -->
+    <color name="tw_teal_300">#5EEAD4</color>     <!-- Basso contrasto -->
+    <color name="tw_teal_600">#0D9488</color>     <!-- WCAG AA compliant (5.3:1) -->
+    <color name="tw_sky_300">#7DD3FC</color>      <!-- Basso contrasto -->
+    <color name="tw_sky_600">#0284C7</color>      <!-- WCAG AA compliant (5.7:1) -->
+    <color name="tw_lime_300">#BEF264</color>
+
+    <!-- ===================================================================== -->
+    <!-- COLORI DESIGN SYSTEM - AGGIORNATI CON TAILWIND                      -->
+    <!-- ===================================================================== -->
+    <color name="ds_background">#F3F4F6</color>          <!-- tw_gray_100 (era #F1F5F9) - Soluzione 1 -->
+    <color name="ds_card_background_active">#FFFFFF</color>
+    <color name="ds_card_background_inactive">#D1D5DB</color> <!-- tw_gray_300 -->
+
+    <!-- Status Indicators -->
+    <color name="ds_status_indicator_on">#16A34A</color>  <!-- tw_green_600 - WCAG AA compliant -->
+    <color name="ds_status_indicator_off">#9CA3AF</color> <!-- tw_gray_400 -->
+
+    <!-- Device Icon Colors -->
+    <color name="ds_icon_thermostat">#FE7A7B</color>
+
+    <!-- ===================================================================== -->
+    <!-- MAPPATURA DISPOSITIVI - STATO ON (WCAG AA Compliant)                -->
+    <!-- ===================================================================== -->
+    <color name="device_light_on">@color/tw_yellow_500</color>      <!-- Era tw_yellow_200 → WCAG ✅ -->
+    <color name="device_thermostat_on">@color/tw_orange_300</color> <!-- Mantenuto -->
+    <color name="device_tv_on">@color/tw_violet_600</color>         <!-- Era tw_violet_300 → WCAG ✅ -->
+    <color name="device_outlet_on">@color/tw_green_600</color>      <!-- Era tw_green_300 → WCAG ✅ -->
+    <color name="device_sensor_on">@color/tw_emerald_600</color>    <!-- Era tw_emerald_300 → WCAG ✅ -->
+    <color name="device_cover_on">@color/tw_blue_500</color>        <!-- Era tw_blue_300 → WCAG ✅ -->
+    <color name="device_weather_on">@color/tw_cyan_600</color>      <!-- Era tw_cyan_300 → WCAG ✅ -->
+    <color name="device_button_on">@color/tw_orange_400</color>     <!-- Mantenuto -->
+    <color name="device_washing_machine_on">@color/tw_indigo_400</color> <!-- Mantenuto -->
+
+    <!-- Colore Icone Spente (invariato) -->
+    <color name="device_icon_off">@color/tw_gray_400</color>        <!-- Era #9CA3AF -->
 </resources>

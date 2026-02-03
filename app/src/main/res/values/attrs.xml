@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <attr name="colorPrimary" format="color" />
+    <attr name="colorOnPrimary" format="color" />
+    <attr name="colorSecondary" format="color" />
+    <attr name="colorOnSecondary" format="color" />
+    <attr name="colorError" format="color" />
+    <attr name="colorSurface" format="color" />
+    <attr name="colorOnSurface" format="color" />
+
+
+    <attr name="colorCardBackgroundActive" format="color" />
+    <attr name="colorCardBackgroundInactive" format="color" />
+
+
+    <attr name="colorTextPrimary" format="color" />
+    <attr name="colorTextSecondary" format="color" />
+
+
+    <attr name="colorIconActive" format="color" />
+    <attr name="colorIconInactive" format="color" />
+
+
+    <attr name="colorStatusOn" format="color" />
+    <attr name="colorStatusOff" format="color" />
+
+
+    <attr name="colorIconThermostat" format="color" />
+
+
+    <attr name="colorDeviceBackgroundOn" format="color" />
+    <attr name="colorDeviceBackgroundOff" format="color" />
+    <attr name="colorDeviceTextOn" format="color" />
+    <attr name="colorDeviceTextOff" format="color" />
+    <attr name="colorDeviceIconOn" format="color" />
+    <attr name="colorDeviceIconOff" format="color" />
+
+</resources>

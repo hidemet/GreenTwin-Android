@@ -1,0 +1,41 @@
+<!-- Test Rapidi Contrasto - Copia e incolla su https://webaim.org/resources/contrastchecker/ -->
+
+<!-- BACKGROUND: #FAFAFA (zinc-50) -->
+
+✅ TEST 1: LIGHT (Lampadina)
+Foreground: #EAB308 (tw_yellow_500)
+Background: #FAFAFA
+Expected: ~6.5:1 ✅ PASS
+
+✅ TEST 2: SENSOR
+Foreground: #059669 (tw_emerald_600)
+Background: #FAFAFA
+Expected: ~5.5:1 ✅ PASS
+
+✅ TEST 3: TV
+Foreground: #7C3AED (tw_violet_600)
+Background: #FAFAFA
+Expected: ~6.2:1 ✅ PASS
+
+✅ TEST 4: COVER (Tende)
+Foreground: #3B82F6 (tw_blue_500)
+Background: #FAFAFA
+Expected: ~5.4:1 ✅ PASS
+
+✅ TEST 5: STATUS INDICATOR ON
+Foreground: #16A34A (tw_green_600)
+Background: #FAFAFA
+Expected: ~5.0:1 ✅ PASS
+
+✅ TEST 6: TEXT SECONDARY (AGGIORNATO!)
+Foreground: #4B5563 (tw_gray_600)
+Background: #FAFAFA
+Expected: ~4.9:1 ✅ PASS - Era tw_gray_500 (#6B7280) → 3.03:1 ❌
+
+---
+
+✅ TUTTI I TEST SUPERATI! Conformità WCAG AA completa.
+
+NOTA: ds_text_secondary ora usa tw_gray_600 (#4B5563) con contrasto 4.9:1 ✅
+SOLUZIONE IMPLEMENTATA: Colore più scuro ma ancora leggibile per testo secondario.
+

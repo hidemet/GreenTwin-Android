@@ -1,15 +1,146 @@
-*.iml
+# ============================================
+# MARKDOWN FILES - Documentazione personale
+# ============================================
+*.md
+*.MD
+# Eccezione: mantieni il README principale
+!README.md
+
+# ============================================
+# TEST DIRECTORIES - Codice di test
+# ============================================
+**/androidTest/
+**/test/
+
+# ============================================
+# BUILT APPLICATION FILES
+# ============================================
+*.apk
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# ============================================
+# GRADLE FILES
+# ============================================
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+.gradle/
+build/
+*/build/
+app/build/
+
+# Gradle cache
+.gradle-cache/
+
+# Gradle Wrapper
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# ============================================
+# LOCAL CONFIGURATION FILES
+# ============================================
+local.properties
+gradle/config.properties
+
+# ============================================
+# ANDROID STUDIO / INTELLIJ IDEA
+# ============================================
+*.iml
+.idea/
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
 .DS_Store
-/build
-/captures
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
 .externalNativeBuild
 .cxx
-local.properties
+
+# IntelliJ
+*.ipr
+*.iws
+/out/
+
+# ============================================
+# KOTLIN
+# ============================================
+.kotlin/
+*.kotlin_module
+
+# ============================================
+# GOOGLE DRIVE TEMP FILES
+# ============================================
+.tmp.drivedownload/
+.tmp.driveupload/
+
+# ============================================
+# PERSONAL SCRIPTS
+# ============================================
+*.ps1
+remove_comments.ps1
+
+# ============================================
+# SAMPLE DATA
+# ============================================
+**/sampledata/
+
+# ============================================
+# SIGNING & SECURITY - NEVER COMMIT!
+# ============================================
+*.jks
+*.keystore
+keystore.properties
+
+# ============================================
+# OPERATING SYSTEM FILES
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# LOGS & TEMPORARY FILES
+# ============================================
+*.log
+*.tmp
+*.temp
+.cache/
+
+# ============================================
+# MISCELLANEOUS
+# ============================================
+*.swp
+*~.nib
+*.bak
+*.orig

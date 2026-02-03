@@ -1,9 +1,220 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.GreenTwin" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Base.Theme.AppDT" parent="Theme.Material3.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/tw_lime_400</item>
+
+        <item name="colorOnPrimary">@color/tw_gray_900</item>
+        <item name="colorPrimaryContainer">@color/tw_lime_400</item>
+        <item name="colorOnPrimaryContainer">@color/tw_gray_900</item>
+
+
+        <item name="colorSecondary">@color/greentwin_secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+
+
+        <item name="colorTertiary">@color/md_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+
+
+        <item name="colorError">@color/tw_red_500</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer</item>
+
+
+        <item name="android:colorBackground">@color/ds_background</item>
+        <item name="colorOnBackground">@color/ds_text_primary</item>
+
+
+        <item name="colorSurface">@color/white</item>
+
+        <item name="colorOnSurface">@color/ds_text_primary</item>
+
+
+        <item name="colorSurfaceVariant">@color/tw_gray_100</item>
+
+        <item name="colorOnSurfaceVariant">@color/ds_text_secondary</item>
+
+
+        <item name="colorOutline">@color/tw_gray_300</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+
+
+        <item name="colorTextPrimary">@color/ds_text_primary</item>
+        <item name="colorTextSecondary">@color/ds_text_secondary</item>
+
+
+        <item name="colorCardBackgroundActive">@color/ds_card_background_active</item>
+        <item name="colorCardBackgroundInactive">@color/ds_card_background_inactive</item>
+
+
+        <item name="colorIconActive">?attr/colorPrimary</item>
+        <item name="colorIconInactive">@color/ds_text_secondary</item>
+        <item name="colorStatusOn">@color/ds_status_indicator_on</item>
+        <item name="colorStatusOff">@color/ds_status_indicator_off</item>
+        <item name="colorIconThermostat">@color/ds_icon_thermostat</item>
+
+
+        <item name="colorDeviceBackgroundOn">@color/ds_card_background_active</item>
+        <item name="colorDeviceBackgroundOff">@color/ds_card_background_inactive</item>
+
+
+        <item name="colorDeviceTextOn">@color/ds_text_primary</item>
+        <item name="colorDeviceTextOff">@color/tw_gray_500</item>
+
+
+        <item name="colorDeviceIconOn">?attr/colorPrimary</item>
+        <item name="colorDeviceIconOff">@color/ds_text_secondary</item>
+
+
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+
     </style>
 
-    <style name="Theme.GreenTwin" parent="Base.Theme.GreenTwin" />
+    <style name="Theme.AppDT" parent="Base.Theme.AppDT" />
+
+
+    <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/tw_slate_200</item>
+    </style>
+
+
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">?attr/colorPrimaryContainer</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">?attr/colorOutline</item>
+        <item name="hintTextColor">@color/tw_gray_500</item>
+    </style>
+
+
+    <style name="Widget.App.Button.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+
+    <style name="Widget.App.Button.OutlinedButton.Toggle" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/selector_toggle_button_background</item>
+        <item name="android:textColor">@color/selector_toggle_button_text</item>
+        <item name="strokeColor">@color/tw_lime_400</item>
+    </style>
+
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/greentwin_surface</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.AppDT</item>
+    </style>
+
+
+    <style name="TextAppearance.App.Tab.Bold" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="Widget.App.TabLayout.Primary" parent="Widget.Material3.TabLayout">
+
+
+        <item name="tabIndicatorColor">?attr/colorOnSurface</item>
+
+
+        <item name="tabSelectedTextColor">?attr/colorOnSurface</item>
+
+
+        <item name="tabTextColor">@color/ds_text_secondary</item>
+
+
+        <item name="tabIndicatorHeight">3dp</item>
+
+
+        <item name="tabTextAppearance">@style/TextAppearance.App.Tab.Bold</item>
+
+
+        <item name="tabMode">fixed</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="android:background">@drawable/layer_tab_primary_background</item>
+        <item name="tabRippleColor">@color/tw_gray_200</item>
+    </style>
+
+
+    <style name="Widget.App.Chip.Choice" parent="Widget.Material3.Chip.Filter">
+
+        <item name="checkedIconVisible">false</item>
+
+
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+
+
+        <item name="chipStrokeColor">@color/selector_chip_stroke</item>
+        <item name="chipStrokeWidth">1dp</item>
+
+
+        <item name="android:textColor">@color/selector_chip_text</item>
+
+
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.Chip.Pill</item>
+
+
+        <item name="rippleColor">@color/tw_lime_100</item>
+
+
+        <item name="chipStartPadding">16dp</item>
+        <item name="chipEndPadding">16dp</item>
+    </style>
+
+
+    <style name="ShapeAppearance.App.Chip.Pill" parent="ShapeAppearance.Material3.Corner.Full">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="Widget.App.ColorPresetCard" parent="Widget.Material3.CardView.Filled">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">60dp</item>
+
+        <item name="cardCornerRadius">16dp</item>
+        <item name="strokeWidth">0dp</item>
+
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Pill" parent="ShapeAppearance.Material3.Corner.Full">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Widget.App.Button.Outlined.Group" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/selector_group_bg</item>
+        <item name="android:textColor">@color/selector_group_text</item>
+        <item name="strokeColor">@color/selector_group_stroke</item>
+
+        <item name="strokeWidth">1dp</item>
+
+        <item name="android:textSize">14sp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:paddingVertical">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+
+        <item name="shapeAppearance">@style/ShapeAppearance.App.Pill</item>
+    </style>
+
 </resources>

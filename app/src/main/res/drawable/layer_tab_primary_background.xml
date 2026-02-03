@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Divider in basso per separare le Tab dal contenuto -->
+    <!-- Simula il comportamento border-bottom mancante nel componente nativo -->
+    <item android:gravity="bottom">
+        <shape android:shape="rectangle">
+            <size android:height="1dp"/>
+            <solid android:color="@color/tw_gray_300"/>
+        </shape>
+    </item>
+</layer-list>

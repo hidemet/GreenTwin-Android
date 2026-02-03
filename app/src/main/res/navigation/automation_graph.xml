@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/automation_graph"
+    app:startDestination="@id/automationHubFragment">
+
+    <fragment
+        android:id="@+id/automationHubFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.AutomationHubFragment"
+        android:label="Crea automazione"
+        tools:layout="@layout/fragment_automation_hub"> 
+
+        <action
+            android:id="@+id/action_hub_to_triggerSelector"
+            app:destination="@id/triggerSelectorFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_hub_to_actionSelector"
+            app:destination="@id/actionSelectorFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_hub_to_name"
+            app:destination="@id/automationNameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/triggerSelectorFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.TriggerSelectorFragment"
+        android:label="Se..."
+        tools:layout="@layout/fragment_trigger_selector">
+
+        
+        <action
+            android:id="@+id/action_selector_to_timeTrigger"
+            app:destination="@id/timeTriggerFragment" />
+
+        
+        <action
+            android:id="@+id/action_selector_to_sunTrigger"
+            app:destination="@id/sunTriggerFragment" />
+
+        
+        <action
+            android:id="@+id/action_selector_to_deviceTrigger"
+            app:destination="@id/deviceTriggerFragment" />
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/timeTriggerFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.trigger.TimeTriggerFragment"
+        android:label="Orario"
+        tools:layout="@layout/fragment_trigger_time" />
+
+    
+    <fragment
+        android:id="@+id/sunTriggerFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.trigger.SunTriggerFragment"
+        android:label="Alba o Tramonto"
+        tools:layout="@layout/fragment_trigger_sun" />
+
+    
+    <fragment
+        android:id="@+id/deviceTriggerFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.trigger.DeviceTriggerFragment"
+        android:label="Stato Dispositivo"
+        tools:layout="@layout/fragment_trigger_device" />
+
+    
+    <fragment
+        android:id="@+id/actionSelectorFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.ActionSelectorFragment"
+        android:label="Allora...">
+
+        <action
+            android:id="@+id/action_selector_to_deviceAction"
+            app:destination="@id/deviceActionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/deviceActionFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.action.DeviceActionFragment"
+        android:label="Configura Azione">
+
+        <argument
+            android:name="deviceId"
+            app:argType="string" />
+        <argument
+            android:name="deviceType"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_deviceActionFragment_to_paletteBottomSheet"
+            app:destination="@id/paletteBottomSheet"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/automationNameFragment"
+        android:name="com.ndumas.appdt.presentation.automation.create.AutomationNameFragment"
+        android:label="Nome Automazione" />
+
+    <dialog
+        android:id="@+id/paletteBottomSheet"
+        android:name="com.ndumas.appdt.presentation.control.light.PaletteBottomSheet"
+        android:label="Seleziona Colore"
+        tools:layout="@layout/bottom_sheet_palette">
+
+        <argument
+            android:name="deviceId"
+            app:argType="string" />
+
+        <argument
+            android:name="startTab"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </dialog>
+
+</navigation>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
+
+    
+
+    
+    <include app:graph="@navigation/automation_graph" />
+
+    <fragment
+        android:id="@+id/automationFragment"
+        android:name="com.ndumas.appdt.presentation.automation.AutomationFragment"
+        android:label="Automazioni"
+        tools:layout="@layout/fragment_automation">
+
+        
+        <action
+            android:id="@+id/action_automationFragment_to_create_flow"
+            app:destination="@id/automation_graph" />
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ndumas.appdt.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_addWidgetBottomSheet"
+            app:destination="@id/addWidgetBottomSheet" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_lightControlFragment"
+            app:destination="@id/lightControlFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/lightControlFragment"
+        android:name="com.ndumas.appdt.presentation.control.light.LightControlFragment"
+        android:label="Controllo Luce"
+        tools:layout="@layout/fragment_light_control">
+
+        
+        <argument
+            android:name="deviceId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_lightControlFragment_to_paletteBottomSheet"
+            app:destination="@id/paletteBottomSheet" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/paletteBottomSheet"
+        android:name="com.ndumas.appdt.presentation.control.light.PaletteBottomSheet"
+        android:label="Palette Colori"
+        tools:layout="@layout/bottom_sheet_palette">
+
+        
+        <argument
+            android:name="deviceId"
+            app:argType="string" />
+        <argument
+            android:name="startTab"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </dialog>
+
+    
+    <fragment
+        android:id="@+id/deviceFragment"
+        android:name="com.ndumas.appdt.presentation.device.DeviceFragment"
+        android:label="Dispositivi"
+        tools:layout="@layout/fragment_device">
+        <action
+            android:id="@+id/action_deviceFragment_to_lightControlFragment"
+            app:destination="@id/lightControlFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+
+    
+    <fragment
+        android:id="@+id/consumptionFragment"
+        android:name="com.ndumas.appdt.presentation.consumption.ConsumptionFragment"
+        android:label="Consumi"
+        tools:layout="@layout/fragment_consumption" />
+
+    
+    <dialog
+        android:id="@+id/addWidgetBottomSheet"
+        android:name="com.ndumas.appdt.presentation.home.AddWidgetBottomSheet"
+        android:label="AddWidgetBottomSheet"
+        tools:layout="@layout/bottom_sheet_add_widget" />
+
+</navigation>

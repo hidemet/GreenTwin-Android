@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name="androidx.fragment.app.testing.EmptyFragmentActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppDT" />
+
+        <activity
+            android:name="com.ndumas.appdt.HiltTestActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppDT" />
+    </application>
+
+</manifest>

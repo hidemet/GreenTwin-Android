@@ -1,3 +1,136 @@
 <resources>
-    <string name="app_name">GreenTwin</string>
+    <string name="app_name">Digital Twin App</string>
+    
+    <string name="login_title">Benvenuto in Green Smart Home!</string>
+    <string name="login_subtitle">Accedi con le credenziali del tuo account per cominciare ad utilizzare la tua app</string>
+    <string name="login_email_hint">Inserisci l\'email</string>
+    <string name="login_password_hint">Inserisci la password</string>
+    <string name="login_button_text">Procedi</string>
+    <string name="login_forgot_password">Hai dimenticato la password?</string>
+    <string name="app_logo_description">Logo dell\'applicazione Green Smart Home</string>
+    <string name="login_register_button_text">Non hai un account? Registrati</string>
+
+    <string name="error_email_empty">L\'email non può essere vuota.</string>
+    <string name="error_email_invalid_format">Il formato dell\'email non è valido.</string>
+    <string name="error_password_empty">La password non può essere vuota.</string>
+    <string name="error_password_too_short">La password deve contenere almeno %d caratteri.</string>
+    <string name="error_invalid_credentials">Email o password non corretti.</string>
+    <string name="error_no_internet">Nessuna connessione a internet.</string>
+    <string name="error_unknown">Si è verificato un errore sconosciuto.</string>
+    <string name="error_server_unavailable">Il server non è al momento disponibile.</string>
+
+    <string name="error_unauthorized">Non autorizzato. Controlla i tuoi permessi.</string>
+    <string name="error_user_not_found">Utente non trovato.</string>
+    <string name="error_email_exists">Questa email è già in uso.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_consumption">Consumi</string>
+    <string name="nav_automation">Automazioni</string>
+    <string name="nav_devices">Dispositivi</string>
+
+    
+    <string name="format_energy_value">%.0f</string>
+    <string name="format_cost_euro">€ %1$.2f</string>
+    <string name="format_prediction_badge">%1$s %2$.0f%%</string> 
+    <string name="placeholder_dash">--</string>
+
+    <string name="format_count_devices">%d dispositivi</string>
+    <string name="format_count_rooms">%d stanze</string>
+    <string name="format_count_groups">%d gruppi</string>
+
+    
+    <string name="date_format_pattern">MMMM yyyy</string>
+    <string name="format_device_count">%d dispositivi</string>
+    <string name="format_prediction_label">vs stima %.0f kWh</string>
+
+    
+    <string name="tab_day">Giorno</string>
+    <string name="tab_week">Settimana</string>
+    <string name="tab_month">Mese</string>
+    <string name="tab_year">Anno</string>
+    <string name="tab_rooms">Stanze</string>
+    <string name="tab_groups">Gruppi</string>
+    <string name="tab_unassigned">Non assegnati</string>
+    <string name="format_energy_kwh">%1$.0f kWh</string>
+    <string name="info">info\n</string>
+    <string name="close">chiudi\n</string>
+
+    
+    <string name="empty_rooms_title">Nessun dispositivo trovato</string>
+    <string name="empty_rooms_desc">Sembra che non ci siano dispositivi configurati nelle tue stanze.</string>
+
+    <string name="empty_groups_title">Nessun gruppo</string>
+    <string name="empty_groups_desc">I gruppi ti aiutano a organizzare dispositivi simili.</string>
+
+    <string name="empty_unassigned_title">Tutto in ordine!</string>
+    <string name="empty_unassigned_desc">Tutti i tuoi dispositivi sono stati assegnati a una stanza.</string>
+
+
+    <string name="action_add">Aggiungi</string>
+    <string name="action_add_count">Aggiungi (%d)</string>
+    <string name="save">Salva</string>
+
+    
+    <string name="create_automation">Crea nuova automazione</string>
+    <string name="no_automations">Nessuna automazione configurata</string>
+    <string name="tap_to_create_automation">Tocca + per creare la tua prima automazione</string>
+
+
+    <string name="automation_trigger_sun_at_event">Esattamente all\'evento</string>
+    <string name="automation_trigger_sun_before">%s prima</string>
+    <string name="automation_trigger_sun_after">%s dopo</string>
+
+    <string name="sun_trigger_at_event">Esattamente all\'evento</string>
+
+    
+    <string name="sun_before_m">%d min prima</string>
+    <string name="sun_before_h">%d h prima</string>
+    <string name="sun_before_hm">%1$d h %2$d min prima</string>
+
+    
+    <string name="sun_after_m">%d min dopo</string>
+    <string name="sun_after_h">%d h dopo</string>
+    <string name="sun_after_hm">%1$d h %2$d min dopo</string>
+
+    <string name="sun_event_sunrise">Quando sorge il sole</string>
+    <string name="sun_event_sunset">Quando tramonta il sole</string>
+
+
+    <string name="sun_at_sunrise">Esattamente all\'alba</string>
+    <string name="sun_before_sunrise_m">%d min prima dell\'alba</string>
+    <string name="sun_before_sunrise_h">%d h prima dell\'alba</string>
+    <string name="sun_before_sunrise_hm">%1$d h %2$d min prima dell\'alba</string>
+    <string name="sun_after_sunrise_m">%d min dopo l\'alba</string>
+    <string name="sun_after_sunrise_h">%d h dopo l\'alba</string>
+    <string name="sun_after_sunrise_hm">%1$d h %2$d min dopo l\'alba</string>
+
+    
+    <string name="sun_at_sunset">Esattamente al tramonto</string>
+    <string name="sun_before_sunset_m">%d min prima del tramonto</string>
+    <string name="sun_before_sunset_h">%d h prima del tramonto</string>
+    <string name="sun_before_sunset_hm">%1$d h %2$d min prima del tramonto</string>
+    <string name="sun_after_sunset_m">%d min dopo il tramonto</string>
+    <string name="sun_after_sunset_h">%d h dopo il tramonto</string>
+    <string name="sun_after_sunset_hm">%1$d h %2$d min dopo il tramonto</string>
+
+    
+    <string name="dialog_conflict_title">Attenzione ai consumi</string>
+    <string name="dialog_conflict_edit">Modifica</string>
+    <string name="dialog_conflict_ignore">Salva comunque</string>
+
+    
+    <string name="profile_icon_desc">Immagine del profilo utente</string>
+    <string name="prev_date_desc">Torna alla data precedente</string>
+    <string name="next_date_desc">Vai alla data successiva</string>
+    <string name="automation_trigger_sun_offset_title">Quando?</string>
+    <string name="cancel">Annulla</string>
+    <string name="confirm">Conferma\n</string>
+
+    
+    <string name="logout">Esci</string>
+
+    <plurals name="automations_count">
+        <item quantity="one">%d Automazione</item>
+        <item quantity="other">%d Automazioni</item>
+    </plurals>
 </resources>
