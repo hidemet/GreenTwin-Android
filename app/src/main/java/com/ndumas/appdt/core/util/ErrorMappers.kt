@@ -52,6 +52,7 @@ fun DataError.asUiText(): UiText =
                 DataError.Validation.MISSING_TRIGGER -> UiText.DynamicString("Manca il trigger di attivazione")
                 DataError.Validation.NO_ACTIONS -> UiText.DynamicString("L'automazione deve avere almeno un'azione")
                 DataError.Validation.INVALID_DRAFT -> UiText.DynamicString("Il draf non è valido")
+                DataError.Validation.NOT_FOUND -> UiText.StringResource(R.string.error_not_found)
             }
         }
     }

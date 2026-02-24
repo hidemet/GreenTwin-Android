@@ -1,7 +1,8 @@
 package com.ndumas.appdt.presentation.home.mapper
 
 import com.ndumas.appdt.domain.device.model.Device
-import com.ndumas.appdt.presentation.home.model.SelectionItem
+import com.ndumas.appdt.presentation.home.model.SelectionUiItem.SelectableDeviceItem
+import com.ndumas.appdt.presentation.home.model.SelectionUiItem.SelectionGroup
 import javax.inject.Inject
 
 class SelectionUiMapper
@@ -11,36 +12,37 @@ class SelectionUiMapper
             private const val UNASSIGNED_LABEL = "Non assegnati"
         }
 
-        fun mapToSelectionList(devices: List<Device>): List<SelectionItem> {
+        fun mapToSelectionGroups(
+            devices: List<Device>,
+            selectedIds: Set<String> = emptySet(),
+        ): List<SelectionGroup> {
             if (devices.isEmpty()) return emptyList()
 
-            val roomComparator =
-                Comparator<String> { room1, room2 ->
+            val grouped = devices.groupBy { it.room ?: UNASSIGNED_LABEL }
+
+            // Ordiniamo le stanze (Non assegnati alla fine)
+            val sortedRooms =
+                grouped.keys.sortedWith { r1, r2 ->
                     when {
-                        room1 == UNASSIGNED_LABEL -> 1
-                        room2 == UNASSIGNED_LABEL -> -1
-                        else -> room1.compareTo(room2)
+                        r1 == UNASSIGNED_LABEL -> 1
+                        r2 == UNASSIGNED_LABEL -> -1
+                        else -> r1.compareTo(r2)
                     }
                 }
 
-            val grouped =
-                devices
-                    .groupBy { it.room ?: UNASSIGNED_LABEL }
-                    .toSortedMap(roomComparator)
-
-            val result = mutableListOf<SelectionItem>()
-
-            grouped.forEach { (roomName, deviceList) ->
-                result.add(SelectionItem.Header(roomName))
-
+            return sortedRooms.map { roomName ->
+                val deviceList = grouped[roomName] ?: emptyList()
                 val sortedDevices = deviceList.sortedBy { it.name }
 
-                sortedDevices.forEach { device ->
+                val items =
+                    sortedDevices.map { device ->
+                        SelectableDeviceItem(
+                            device = device,
+                            isSelected = selectedIds.contains(device.id),
+                        )
+                    }
 
-                    result.add(SelectionItem.SelectableDevice(device))
-                }
+                SelectionGroup(roomName, items)
             }
-
-            return result
         }
     }

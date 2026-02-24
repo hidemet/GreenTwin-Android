@@ -12,5 +12,19 @@ interface AutomationRepository {
 
     fun getAutomations(): Flow<Result<List<Automation>, DataError>>
 
+    fun getAutomationById(id: String): Flow<Result<Automation, DataError>>
+
+    fun updateAutomation(
+        id: String,
+        draft: AutomationDraft,
+    ): Flow<Result<Unit, DataError>>
+
+    fun deleteAutomation(id: String): Flow<Result<Unit, DataError>>
+
+    fun toggleAutomationActive(
+        id: String,
+        isActive: Boolean,
+    ): Flow<Result<Unit, DataError>>
+
     fun simulateAutomation(draft: AutomationDraft): Flow<Result<SimulationResult, DataError>>
 }

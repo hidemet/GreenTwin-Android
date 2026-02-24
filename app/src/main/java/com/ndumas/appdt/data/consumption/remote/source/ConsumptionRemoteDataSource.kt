@@ -1,6 +1,7 @@
 package com.ndumas.appdt.data.consumption.remote.source
 
 import com.ndumas.appdt.data.consumption.remote.dto.ConsumptionDto
+import com.ndumas.appdt.data.consumption.remote.dto.PredictionResponseDto
 
 interface ConsumptionRemoteDataSource {
     suspend fun getTotalConsumption(
@@ -15,4 +16,6 @@ interface ConsumptionRemoteDataSource {
         endDate: String,
         group: String,
     ): List<ConsumptionDto>
+
+    suspend fun getDailyPrediction(): PredictionResponseDto
 }

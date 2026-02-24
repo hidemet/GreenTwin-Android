@@ -1,6 +1,7 @@
 package com.ndumas.appdt.data.consumption.remote
 
 import com.ndumas.appdt.data.consumption.remote.dto.ConsumptionDto
+import com.ndumas.appdt.data.consumption.remote.dto.PredictionResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,4 +20,7 @@ interface ConsumptionApiService {
         @Query("end_timestamp") endDate: String,
         @Query("group") group: String = "entity",
     ): List<ConsumptionDto>
+
+    @GET("prediction/recursive")
+    suspend fun getDailyPrediction(): PredictionResponseDto
 }

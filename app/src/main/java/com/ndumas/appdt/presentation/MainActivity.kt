@@ -1,5 +1,6 @@
 package com.ndumas.appdt.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -33,6 +34,15 @@ class MainActivity : AppCompatActivity() {
 
         setupNavigation()
         observeAuthState()
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val configuration = newBase.resources.configuration
+        // Forziamo il fontScale a 1.0 (standard) indipendentemente dalle impostazioni Android
+        configuration.fontScale = 1f
+
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
     }
 
     private fun setupNavigation() {

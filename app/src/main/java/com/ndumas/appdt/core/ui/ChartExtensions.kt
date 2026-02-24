@@ -46,13 +46,14 @@ fun BarChart.configureConsumptionStyle(context: Context) {
 
     axisLeft.apply {
         setDrawGridLines(true)
-        gridColor = ContextCompat.getColor(context, R.color.tw_gray_100)
+        gridColor = ContextCompat.getColor(context, R.color.tw_gray_300)
         enableGridDashedLine(10f, 10f, 0f)
         setDrawAxisLine(false) // Nascondi la linea verticale
         setDrawLabels(true)
         textColor = ContextCompat.getColor(context, R.color.ds_text_secondary)
         textSize = 11f
         axisMinimum = 0f
+        setLabelCount(5, true) // 5 etichette equidistanti sull'asse Y
 
         //  Unità di misura
         valueFormatter =
@@ -74,7 +75,7 @@ fun BarChart.configureConsumptionStyle(context: Context) {
 
     axisLeft.apply {
         setDrawGridLines(true)
-        gridColor = ContextCompat.getColor(context, R.color.tw_gray_100) // Più leggero
+        gridColor = ContextCompat.getColor(context, R.color.tw_gray_300) // Più visibile per leggibilità
         enableGridDashedLine(10f, 10f, 0f)
         setDrawAxisLine(false) // Nascondiamo la linea verticale Y
         setDrawLabels(true)

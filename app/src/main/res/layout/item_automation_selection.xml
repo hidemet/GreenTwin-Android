@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <!-- Icona automazione con colore dinamico (verde=attiva, grigio=inattiva) -->
+    <ImageView
+        android:id="@+id/iv_automation_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_automation"
+        app:tint="?attr/colorOnSurfaceVariant"
+        android:contentDescription="@null" />
+
+    <!-- Contenuto centrale: Nome, Descrizione, Stato -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp">
+
+        <!-- Nome automazione -->
+        <TextView
+            android:id="@+id/tv_automation_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurface"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Accendi luci al tramonto" />
+
+        <!-- Descrizione automazione -->
+        <TextView
+            android:id="@+id/tv_automation_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="2dp"
+            tools:text="Ogni giorno alle 18:30 accende le luci del soggiorno" />
+
+    </LinearLayout>
+
+    <!-- Checkbox per selezione multipla -->
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox_automation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:minWidth="48dp" />
+
+</LinearLayout>
+
+

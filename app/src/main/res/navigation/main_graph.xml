@@ -9,6 +9,7 @@
 
     
     <include app:graph="@navigation/automation_graph" />
+    <include app:graph="@navigation/automation_edit_graph" />
 
     <fragment
         android:id="@+id/automationFragment"
@@ -20,22 +21,51 @@
         <action
             android:id="@+id/action_automationFragment_to_create_flow"
             app:destination="@id/automation_graph" />
+
+        <action
+            android:id="@+id/action_automationFragment_to_automationDetailFragment"
+            app:destination="@id/automationDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
-    
+    <!-- Automation Detail Fragment -->
+    <fragment
+        android:id="@+id/automationDetailFragment"
+        android:name="com.ndumas.appdt.presentation.automation.detail.AutomationDetailFragment"
+        android:label="Dettagli Automazione"
+        tools:layout="@layout/fragment_automation_detail">
+
+        <argument
+            android:name="automationId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_automationDetailFragment_to_edit_flow"
+            app:destination="@id/automation_edit_graph" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ndumas.appdt.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
 
-        <action
-            android:id="@+id/action_homeFragment_to_addWidgetBottomSheet"
-            app:destination="@id/addWidgetBottomSheet" />
 
         <action
-            android:id="@+id/action_homeFragment_to_lightControlFragment"
-            app:destination="@id/lightControlFragment"
+            android:id="@+id/action_homeFragment_to_deviceControlFragment"
+            app:destination="@id/deviceControlFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+        <action
+            android:id="@+id/action_homeFragment_to_automationDetailFragment"
+            app:destination="@id/automationDetailFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -44,10 +74,10 @@
 
     
     <fragment
-        android:id="@+id/lightControlFragment"
-        android:name="com.ndumas.appdt.presentation.control.light.LightControlFragment"
-        android:label="Controllo Luce"
-        tools:layout="@layout/fragment_light_control">
+        android:id="@+id/deviceControlFragment"
+        android:name="com.ndumas.appdt.presentation.control.DeviceControlFragment"
+        android:label="Controllo Dispositivo"
+        tools:layout="@layout/fragment_device_control">
 
         
         <argument
@@ -55,8 +85,28 @@
             app:argType="string" />
 
         <action
-            android:id="@+id/action_lightControlFragment_to_paletteBottomSheet"
+            android:id="@+id/action_deviceControlFragment_to_paletteBottomSheet"
             app:destination="@id/paletteBottomSheet" />
+
+        <action
+            android:id="@+id/action_deviceControlFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <!-- Device Detail Fragment -->
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.ndumas.appdt.presentation.control.detail.DeviceDetailFragment"
+        android:label="Dettagli Dispositivo"
+        tools:layout="@layout/fragment_device_detail">
+
+        <argument
+            android:name="deviceId"
+            app:argType="string" />
     </fragment>
 
     <dialog
@@ -81,9 +131,21 @@
         android:name="com.ndumas.appdt.presentation.device.DeviceFragment"
         android:label="Dispositivi"
         tools:layout="@layout/fragment_device">
+
+        <argument
+            android:name="scrollTarget"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <argument
+            android:name="isRoom"
+            app:argType="boolean"
+            android:defaultValue="true" />
+
         <action
-            android:id="@+id/action_deviceFragment_to_lightControlFragment"
-            app:destination="@id/lightControlFragment"
+            android:id="@+id/action_deviceFragment_to_deviceControlFragment"
+            app:destination="@id/deviceControlFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -97,11 +159,5 @@
         android:label="Consumi"
         tools:layout="@layout/fragment_consumption" />
 
-    
-    <dialog
-        android:id="@+id/addWidgetBottomSheet"
-        android:name="com.ndumas.appdt.presentation.home.AddWidgetBottomSheet"
-        android:label="AddWidgetBottomSheet"
-        tools:layout="@layout/bottom_sheet_add_widget" />
 
 </navigation>

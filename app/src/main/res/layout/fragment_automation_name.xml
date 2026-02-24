@@ -7,34 +7,21 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/include_toolbar_standard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIconTint="?attr/colorOnSurface"
-            app:navigationIcon="@drawable/ic_close"
-            app:title="Nome automazione"
-            app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-            app:titleCentered="false"
-            android:background="@android:color/transparent" />
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/include_toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -66,7 +53,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_automation"
-                        app:tint="?attr/colorPrimary"
+                        app:tint="?attr/colorSecondary"
                         android:importantForAccessibility="no"
                         android:layout_marginBottom="24dp"/>
 
@@ -91,6 +78,7 @@
                         app:counterEnabled="true"
                         app:counterMaxLength="30"
                         app:endIconMode="clear_text"
+                        app:errorEnabled="true"
                         app:boxBackgroundColor="?attr/colorSurfaceVariant">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -115,13 +103,34 @@
         android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
-            style="@style/Widget.Material3.Button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Conferma e Salva"
-            android:minHeight="56dp" />
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Annulla"
+                android:enabled="true"
+                android:clickable="true"
+                android:minHeight="48dp"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salva"
+                android:enabled="true"
+                android:clickable="true"
+                android:minHeight="48dp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_save"
             android:layout_width="wrap_content"

@@ -56,6 +56,11 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             viewModel.onEvent(LoginEvent.OnLoginClick)
         }
+
+        binding.btnForgotPassword.setOnClickListener {
+            com.ndumas.appdt.core.ui.SnackbarHelper
+                .showInfo(binding.root, "WIP")
+        }
     }
 
     private fun observeViewModel() {
@@ -64,10 +69,12 @@ class LoginFragment : Fragment() {
                 launch {
                     viewModel.uiState.collect { state ->
 
-                        binding.progressBar.isVisible = state.isLoading
+                        binding.loadingOverlay.isVisible = state.isLoading
 
                         binding.btnLogin.isEnabled = !state.isLoading
                         binding.btnForgotPassword.isEnabled = !state.isLoading
+                        binding.tilEmail.isEnabled = !state.isLoading
+                        binding.tilPassword.isEnabled = !state.isLoading
 
                         binding.tilEmail.error = state.emailError?.asString(requireContext())
                         binding.tilPassword.error = state.passwordError?.asString(requireContext())

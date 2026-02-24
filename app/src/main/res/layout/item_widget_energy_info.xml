@@ -3,86 +3,104 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_energy_container"
+    style="@style/Widget.App.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="0dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="#E0E0E0"
-    app:cardBackgroundColor="#FFFFFF">
-   
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:contentPadding="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:layout_height="wrap_content">
 
-       
         <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_automation"
-            app:tint="#191D12"
+            android:id="@+id/iv_header_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_bolt"
+            android:contentDescription="@null"
+            app:tint="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-       
         <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
+            android:id="@+id/tv_header_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Consumo energetico"
+            android:layout_marginStart="8dp"
+            android:text="@string/energy_widget_title"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="#191D12"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:letterSpacing="0.05"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_icon" />
+            app:layout_constraintStart_toEndOf="@id/iv_header_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_header_icon"
+            app:layout_constraintBottom_toBottomOf="@id/iv_header_icon"/>
 
-       
         <TextView
             android:id="@+id/tv_power_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            tools:text="2.1 kW"
-            android:textSize="42sp"
+            tools:text="5,6"
+            android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
+            android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
-            android:textColor="#14532D"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_icon" />
+            app:layout_constraintTop_toBottomOf="@id/iv_header_icon" />
 
-       
         <TextView
-            android:id="@+id/tv_comparison"
+            android:id="@+id/tv_unit"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/energy_unit_kwh"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_power_value"
+            app:layout_constraintStart_toEndOf="@id/tv_power_value" />
+
+        <TextView
+            android:id="@+id/tv_percentage_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_green"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            tools:text="↓ 12%"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="@color/badge_success_text"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:drawableStartCompat="@drawable/ic_trending_down"
+            android:drawablePadding="4dp"
+            app:drawableTint="@color/badge_success_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_comparison_text"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="-15% rispetto alla media"
+            tools:text="Rispetto alle\nstime giornaliere"
+            android:gravity="end"
+            android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="#444746"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_power_value"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-       
-        <TextView
-            android:id="@+id/tv_updated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            tools:text="Aggiornato ora"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="#444746"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_comparison"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintTop_toBottomOf="@id/tv_percentage_badge"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_unit"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/tv_comparison"/>
+            app:layout_constraintWidth_percent="0.5"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

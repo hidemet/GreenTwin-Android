@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="24dp"
+    android:clipToPadding="false">
 
-   
     <TextView
         android:id="@+id/tv_room_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cucina"
-        android:textStyle="bold"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
-        android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="4dp"/>
+        android:layout_marginStart="4dp"
+        tools:text="Cucina"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?attr/colorOnSurface"/>
 
-   
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@android:color/white">
-       
+        app:strokeWidth="0dp">
 
-       
         <LinearLayout
             android:id="@+id/layout_devices_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:divider="?android:dividerHorizontal"
+            android:divider="?android:attr/listDivider"
             android:showDividers="middle"/>
-       
 
     </com.google.android.material.card.MaterialCardView>
 

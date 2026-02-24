@@ -19,7 +19,7 @@ class FakeServiceRepository
     ) : ServiceRepository {
         override fun callService(request: ServiceRequest): Flow<Result<Unit, DataError>> =
             flow {
-                delay(300)
+                delay(100)
 
                 fakeDeviceRepository.updateDeviceState(request.entityId) { currentDevice ->
                     when (request.service) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,8 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ndumas.appdt.R
+import com.ndumas.appdt.core.ui.SnackbarHelper
 import com.ndumas.appdt.databinding.FragmentDeviceBinding
-import com.ndumas.appdt.presentation.home.DashboardAdapter
+import com.ndumas.appdt.presentation.device.adapter.DeviceListAdapter
+import com.ndumas.appdt.presentation.home.model.DashboardItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,7 +27,7 @@ class DeviceFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: DeviceListViewModel by viewModels()
-    private lateinit var adapter: DashboardAdapter
+    private lateinit var adapter: DeviceListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,7 @@ class DeviceFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setupHeader()
         setupRecyclerView()
         setupListeners()
         observeUiState()
@@ -48,17 +51,16 @@ class DeviceFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter =
-            DashboardAdapter(
+            DeviceListAdapter(
                 onDeviceToggle = { widget ->
                     viewModel.onDeviceClicked(widget.device)
                 },
                 onDeviceDetails = { widget ->
                     viewModel.onDeviceLongClicked(widget.device)
                 },
-                onAutomationToggle = {},
-                onAutomationDetails = {},
-                onDeleteClick = {},
-                dragStartListener = {},
+                onSectionToggle = { headerId ->
+                    viewModel.onSectionToggle(headerId)
+                },
             )
 
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
@@ -68,8 +70,8 @@ class DeviceFragment : Fragment() {
                 override fun getSpanSize(position: Int): Int {
                     val type = adapter.getItemViewType(position)
                     return when (type) {
-                        DashboardAdapter.TYPE_HEADER,
-                        DashboardAdapter.TYPE_EMPTY_STATE,
+                        DeviceListAdapter.TYPE_HEADER,
+                        DeviceListAdapter.TYPE_EMPTY_STATE,
                         -> 2
 
                         else -> 1
@@ -83,12 +85,35 @@ class DeviceFragment : Fragment() {
         }
     }
 
+    private fun setupHeader() {
+        binding.includeToolbar.toolbar.title = getString(R.string.nav_devices)
+
+        // Configurazione tab
+        val tabLayout = binding.includeToolbar.tabLayout
+
+        if (tabLayout.tabCount == 0) {
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_rooms))
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_groups))
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_unassigned))
+        }
+
+        // Seleziona tab in base ai parametri di navigazione
+        val scrollTarget = arguments?.getString("scrollTarget")
+        val isRoom = arguments?.getBoolean("isRoom", true) ?: true
+
+        if (scrollTarget != null) {
+            val tabIndex = if (isRoom) 0 else 1
+            tabLayout.getTabAt(tabIndex)?.select()
+        }
+    }
+
     private fun setupListeners() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.onRefresh()
         }
+        binding.swipeRefresh.setColorSchemeResources(R.color.tw_lime_500)
 
-        binding.tabLayout.addOnTabSelectedListener(
+        binding.includeToolbar.tabLayout.addOnTabSelectedListener(
             object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
                     tab?.let { viewModel.onTabSelected(it.position) }
@@ -112,7 +137,13 @@ class DeviceFragment : Fragment() {
                         binding.tvError.isVisible = state.error != null
                         state.error?.let { binding.tvError.text = it.asString(requireContext()) }
 
-                        adapter.submitList(state.items)
+                        adapter.submitList(state.items) {
+                            // Dopo submit, controlla se c'è un target di scroll pendente
+                            // Solo se non stiamo caricando e abbiamo elementi
+                            if (!state.isLoading && state.items.isNotEmpty()) {
+                                handlePendingScrollTarget(state.items)
+                            }
+                        }
                     }
                 }
 
@@ -121,18 +152,34 @@ class DeviceFragment : Fragment() {
                         when (event) {
                             is DeviceListUiEvent.NavigateToControl -> {
                                 val action =
-                                    DeviceFragmentDirections.actionDeviceFragmentToLightControlFragment(
+                                    DeviceFragmentDirections.actionDeviceFragmentToDeviceControlFragment(
                                         deviceId = event.deviceId,
                                     )
                                 findNavController().navigate(action)
                             }
 
                             is DeviceListUiEvent.ShowToast -> {
-                                Toast.makeText(requireContext(), event.message.asString(requireContext()), Toast.LENGTH_SHORT).show()
+                                SnackbarHelper.showInfo(binding.root, event.message)
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun handlePendingScrollTarget(items: List<DashboardItem>) {
+        val target = viewModel.consumePendingScrollTarget() ?: return
+        val headerId = "header_$target"
+
+        val position =
+            items.indexOfFirst {
+                it is DashboardItem.SectionHeader && it.id == headerId
+            }
+
+        if (position != -1) {
+            binding.rvDevices.post {
+                binding.rvDevices.smoothScrollToPosition(position)
             }
         }
     }

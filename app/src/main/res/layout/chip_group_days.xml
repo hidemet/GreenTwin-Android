@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="6dp"
+        app:chipSpacingVertical="0dp"
+        app:singleLine="true"
+        app:singleSelection="false"
+        app:selectionRequired="false"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_mon"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tue"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_wed"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_thu"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="G"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_fri"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sat"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sun"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D"
+            app:chipCornerRadius="20dp"
+            app:chipMinTouchTargetSize="40dp"
+            app:checkedIconVisible="false" />
+
+    </com.google.android.material.chip.ChipGroup>
+</merge>
+

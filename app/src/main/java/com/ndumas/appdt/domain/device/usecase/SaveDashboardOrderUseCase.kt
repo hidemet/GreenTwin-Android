@@ -9,8 +9,6 @@ class SaveDashboardOrderUseCase
         private val repository: DashboardPreferencesRepository,
     ) {
         suspend operator fun invoke(ids: List<String>) {
-            if (ids.isNotEmpty()) {
-                repository.saveDashboardOrder(ids)
-            }
+            repository.saveDashboardOrder(ids)
         }
     }

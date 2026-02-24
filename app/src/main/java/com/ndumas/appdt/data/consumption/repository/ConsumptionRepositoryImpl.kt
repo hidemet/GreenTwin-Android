@@ -11,6 +11,7 @@ import com.ndumas.appdt.domain.consumption.model.Consumption
 import com.ndumas.appdt.domain.consumption.model.ConsumptionBreakdown
 import com.ndumas.appdt.domain.consumption.model.ConsumptionBreakdownType
 import com.ndumas.appdt.domain.consumption.model.ConsumptionGranularity
+import com.ndumas.appdt.domain.consumption.model.PredictionData
 import com.ndumas.appdt.domain.consumption.repository.ConsumptionRepository
 import com.ndumas.appdt.domain.error.DataError
 import kotlinx.coroutines.flow.Flow
@@ -105,6 +106,68 @@ class ConsumptionRepositoryImpl
                 e.printStackTrace()
 
                 emit(Result.Success(emptyList()))
+            }
+
+        override fun getDailyPrediction(): Flow<Result<List<PredictionData>, DataError>> =
+            flow<Result<List<PredictionData>, DataError>> {
+                val response = dataSource.getDailyPrediction()
+                val predictionList =
+                    response.data.map { dto ->
+                        PredictionData(
+                            date = dto.date,
+                            energyConsumptionKwh = normalizeToKwh(dto.energyConsumption, dto.energyConsumptionUnit),
+                        )
+                    }
+                emit(Result.Success(predictionList))
+            }.catch { e ->
+                if (e is CancellationException) throw e
+                e.printStackTrace()
+                emit(Result.Error(mapExceptionToDataError(e)))
+            }
+
+        override fun getHistoricalDailyAverage(days: Int): Flow<Result<Double?, DataError>> =
+            flow<Result<Double?, DataError>> {
+                val today = LocalDate.now()
+                val startDate = today.minusDays(days.toLong())
+                // Escludiamo oggi per avere solo giorni completamente passati
+                val endDate = today.minusDays(1)
+
+                if (startDate.isAfter(endDate)) {
+                    emit(Result.Success(null))
+                    return@flow
+                }
+
+                val dtoList =
+                    dataSource.getTotalConsumption(
+                        startDate = startDate.toString(),
+                        endDate = endDate.toString(),
+                        group = "daily",
+                    )
+
+                if (dtoList.isEmpty()) {
+                    emit(Result.Success(null))
+                    return@flow
+                }
+
+                // Calcola la media dei consumi giornalieri disponibili
+                val dailyValues =
+                    dtoList
+                        .map { dto ->
+                            normalizeToKwh(dto.energyConsumption, dto.energyConsumptionUnit)
+                        }.filter { it > 0 } // Esclude giorni senza dati
+
+                val average =
+                    if (dailyValues.isNotEmpty()) {
+                        dailyValues.sum() / dailyValues.size
+                    } else {
+                        null
+                    }
+
+                emit(Result.Success(average))
+            }.catch { e ->
+                if (e is CancellationException) throw e
+                e.printStackTrace()
+                emit(Result.Error(mapExceptionToDataError(e)))
             }
 
         private fun aggregateByDevice(

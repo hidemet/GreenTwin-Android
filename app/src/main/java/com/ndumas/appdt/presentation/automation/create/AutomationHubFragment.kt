@@ -16,6 +16,7 @@ import com.ndumas.appdt.domain.automation.model.AutomationAction
 import com.ndumas.appdt.domain.automation.model.AutomationTrigger
 import com.ndumas.appdt.presentation.automation.create.mapper.DeviceUiMapper
 import com.ndumas.appdt.presentation.automation.create.mapper.SolarUiMapper
+import com.ndumas.appdt.presentation.automation.util.AutomationServiceTranslator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -48,10 +49,18 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
         observeState()
     }
 
-    private fun setupListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+    private fun setupToolbar() {
+        with(binding.includeToolbar.toolbar) {
+            title = "Crea automazione"
+            setNavigationIcon(R.drawable.ic_close) // Sovrascriviamo l'icona standard
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
+    }
+
+    private fun setupListeners() {
+        setupToolbar()
 
         binding.cardAddTrigger.setOnClickListener { navigateToTrigger() }
         binding.cardTriggerSelected.setOnClickListener { navigateToTrigger() }
@@ -60,6 +69,17 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
         binding.cardActionSelected.setOnClickListener { navigateToAction() }
 
         binding.btnNext.setOnClickListener {
+            val currentDraft = viewModel.uiState.value.draft
+
+            // Validate trigger and action
+            if (currentDraft.trigger == null || currentDraft.actions.isEmpty()) {
+                com.ndumas.appdt.core.ui.SnackbarHelper.showInfo(
+                    binding.root,
+                    getString(R.string.automation_missing_trigger_or_action),
+                )
+                return@setOnClickListener
+            }
+
             findNavController().navigate(R.id.action_hub_to_name)
         }
     }
@@ -104,7 +124,9 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
             val action = draft.actions.first()
             binding.tvActionType.text = "Azione"
             if (action is AutomationAction.DeviceAction) {
-                binding.tvActionSummary.text = "${action.service} ${action.deviceName}"
+                val translatedService = AutomationServiceTranslator.translateService(requireContext(), action.service)
+                val deviceNameLowercase = action.deviceName.lowercase()
+                binding.tvActionSummary.text = "$translatedService $deviceNameLowercase"
 
                 val deviceType = deviceUiMapper.mapDomainToDeviceType(action.domain)
                 val uiStyle = deviceType.getUiStyle()
@@ -120,7 +142,9 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
             }
         }
 
-        binding.btnNext.isEnabled = state.isNextEnabled
+        // Il pulsante rimane sempre abilitato per permettere feedback utente
+        // La validazione avviene nel click listener con snackbar esplicativa
+        // (Principio Nielsen: "Visibility of system status")
     }
 
     private fun resolveTriggerTitle(trigger: AutomationTrigger): String =
@@ -137,9 +161,9 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
                 val timeStr = trigger.time.format(timeFormatter)
 
                 if (trigger.days.isEmpty()) {
-                    "$timeStr (Una volta)"
+                    "$timeStr, ${getString(R.string.automation_trigger_no_repeat)}"
                 } else if (trigger.days.size == 7) {
-                    "$timeStr (Ogni giorno)"
+                    "$timeStr, ${getString(R.string.automation_trigger_every_day)}"
                 } else {
                     val daysStr =
                         trigger.days
@@ -157,7 +181,15 @@ class AutomationHubFragment : Fragment(R.layout.fragment_automation_hub) {
                 val offsetText = solarUiMapper.mapToLabel(trigger.offsetMinutes, trigger.event).asString(requireContext())
 
                 if (trigger.days.isNotEmpty()) {
-                    "$offsetText (${trigger.days.size} giorni)"
+                    val daysStr =
+                        trigger.days
+                            .sorted()
+                            .joinToString(", ") { day ->
+                                day
+                                    .getDisplayName(TextStyle.SHORT, Locale.ITALIAN)
+                                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ITALIAN) else it.toString() }
+                            }
+                    "$offsetText, $daysStr"
                 } else {
                     offsetText
                 }

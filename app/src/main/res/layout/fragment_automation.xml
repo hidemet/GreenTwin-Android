@@ -6,35 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        android:fitsSystemWindows="true">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            style="@style/Widget.Material3.CollapsingToolbar.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
-            app:contentScrim="?attr/colorSurfaceContainer"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:title="@string/nav_automation"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
-            app:expandedTitleTextAppearance="@style/TextAppearance.Material3.HeadlineMedium">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:background="@android:color/transparent" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/include_toolbar_standard"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -63,9 +37,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/create_automation"
         app:srcCompat="@drawable/ic_add"
-        app:backgroundTint="?attr/colorPrimaryContainer"
-        app:tint="?attr/colorOnPrimaryContainer" />
-
+        app:backgroundTint="?attr/colorSecondary"/>
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"

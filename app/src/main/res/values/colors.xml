@@ -173,6 +173,8 @@
     <!-- Tailwind Lime (Primary) -->
     <color name="tw_lime_100">#ECFCCB</color>
     <color name="tw_lime_400">#A3E635</color>     <!-- Primary accent Web -->
+    <color name="tw_lime_200">#D9F99D</color>
+    <color name="tw_green_200">#BBF7D0</color>
     <color name="tw_lime_500">#84CC16</color> <!-- Positive / Status ON -->
     <color name="tw_lime_600">#65A30D</color>     <!-- Contrasto migliorato -->
     <color name="tw_lime_800">#3F6212</color>
@@ -292,4 +294,16 @@
 
     <!-- Colore Icone Spente (invariato) -->
     <color name="device_icon_off">@color/tw_gray_400</color>        <!-- Era #9CA3AF -->
+
+    <!-- Colore Icona Automazione Attiva -->
+    <color name="automation_icon_active">@color/tw_lime_500</color>
+
+    <!-- ===================================================================== -->
+    <!-- SNACKBAR - Colori coerenti per feedback utente                       -->
+    <!-- ===================================================================== -->
+    <color name="snackbar_background">@color/tw_gray_800</color>
+    <color name="snackbar_text">@color/white</color>
+    <color name="snackbar_action">@color/tw_lime_400</color>
+    <color name="snackbar_background_error">@color/tw_red_500</color>
+    <color name="snackbar_text_error">@color/white</color>
 </resources>

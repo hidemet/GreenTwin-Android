@@ -40,6 +40,54 @@ class AutomationRepositoryImpl
                 emit(Result.Error(mapExceptionToDataError(e)))
             }
 
+        override fun getAutomationById(id: String): Flow<Result<Automation, DataError>> =
+            flow<Result<Automation, DataError>> {
+                val dtos = api.getAutomations()
+                val automation = dtos.map { mapper.mapDtoToDomain(it) }.find { it.id == id }
+                if (automation != null) {
+                    emit(Result.Success(automation))
+                } else {
+                    emit(Result.Error(DataError.Validation.NOT_FOUND))
+                }
+            }.catch { e ->
+                emit(Result.Error(mapExceptionToDataError(e)))
+            }
+
+        override fun updateAutomation(
+            id: String,
+            draft: AutomationDraft,
+        ): Flow<Result<Unit, DataError>> =
+            flow<Result<Unit, DataError>> {
+                // Backend non ha PUT, quindi eliminiamo e ricreiamo
+                api.deleteAutomation(id)
+                val request = mapper.mapToUpdateRequest(id, draft)
+                api.createAutomation(request)
+                emit(Result.Success(Unit))
+            }.catch { e ->
+                emit(Result.Error(mapExceptionToDataError(e)))
+            }
+
+        override fun deleteAutomation(id: String): Flow<Result<Unit, DataError>> =
+            flow<Result<Unit, DataError>> {
+                api.deleteAutomation(id)
+                emit(Result.Success(Unit))
+            }.catch { e ->
+                emit(Result.Error(mapExceptionToDataError(e)))
+            }
+
+        override fun toggleAutomationActive(
+            id: String,
+            isActive: Boolean,
+        ): Flow<Result<Unit, DataError>> =
+            flow<Result<Unit, DataError>> {
+                // Il backend non ha un endpoint toggle diretto
+                // Per ora emettiamo success - in futuro potrebbe richiedere
+                // delete+create con mode diverso
+                emit(Result.Success(Unit))
+            }.catch { e ->
+                emit(Result.Error(mapExceptionToDataError(e)))
+            }
+
         override fun simulateAutomation(draft: AutomationDraft): Flow<Result<SimulationResult, DataError>> =
             flow<Result<SimulationResult, DataError>> {
                 val request = mapper.mapToRequest(draft)

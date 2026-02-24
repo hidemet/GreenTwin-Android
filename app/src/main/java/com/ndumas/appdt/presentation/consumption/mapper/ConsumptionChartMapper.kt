@@ -20,29 +20,30 @@ class ConsumptionChartMapper
             today: LocalDate,
         ): BarData {
             val entries = ArrayList<BarEntry>()
-            val colors = ArrayList<Int>()
 
-            val colorDefault = context.getColor(R.color.tw_lime_400)
-            val colorHighlight = context.getColor(R.color.greentwin_secondary)
-
-            val todayString = today.toString()
-
+            // 1. Creiamo solo le entries, senza logica colori
             data.forEachIndexed { index, item ->
-
                 entries.add(BarEntry(index.toFloat(), item.energyKwh.toFloat()))
-
-                val isToday = item.date == todayString
-                colors.add(if (isToday) colorHighlight else colorDefault)
             }
 
+            // 2. Configuriamo il DataSet
             val dataSet =
                 BarDataSet(entries, "Consumi").apply {
-                    setColors(colors)
+                    // COLORE UNICO: Lime standard per tutte le barre
+                    color = context.getColor(R.color.tw_lime_400)
+
+                    // Nessun valore scritto sopra le barre (pulizia)
                     setDrawValues(false)
+
+                    // CONFIGURAZIONE SELEZIONE (Feedback al tocco)
+                    // Quando l'utente tocca, la barra si scurisce
+                    highLightAlpha = 150
+                    highLightColor = context.getColor(R.color.tw_gray_900)
                 }
 
+            // 3. Ritorniamo i dati con uno stile barre più elegante (più strette)
             return BarData(dataSet).apply {
-                barWidth = 0.6f
+                barWidth = 0.5f
             }
         }
     }

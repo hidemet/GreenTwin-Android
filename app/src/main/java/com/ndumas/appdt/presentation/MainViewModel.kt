@@ -42,7 +42,7 @@ class MainViewModel
                 val isLoggedIn = checkAuthStateUseCase()
                 _isUserLoggedIn.value = isLoggedIn
 
-                delay(500)
+                delay(100)
 
                 _isLoading.value = false
             }

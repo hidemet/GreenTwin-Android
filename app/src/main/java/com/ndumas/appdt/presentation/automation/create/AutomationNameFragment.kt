@@ -2,7 +2,6 @@ package com.ndumas.appdt.presentation.automation.create
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -13,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ndumas.appdt.R
+import com.ndumas.appdt.core.ui.SnackbarHelper
 import com.ndumas.appdt.databinding.FragmentAutomationNameBinding
 import com.ndumas.appdt.domain.automation.model.SimulationResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,13 +64,15 @@ class AutomationNameFragment : Fragment(R.layout.fragment_automation_name) {
     }
 
     private fun setupListeners() {
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-
-        binding.btnSave.isEnabled = false
+        with(binding.includeToolbar.toolbar) {
+            title = "Nome automazione"
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener { findNavController().popBackStack() }
+        }
 
         binding.etName.addTextChangedListener { text ->
+            binding.tilName.error = null
             viewModel.onEvent(AutomationCreateUiEvent.UpdateName(text.toString()))
-            updateSaveButtonState(text.toString())
         }
 
         binding.btnSave.setOnClickListener {
@@ -80,30 +82,30 @@ class AutomationNameFragment : Fragment(R.layout.fragment_automation_name) {
                 ) as android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
 
-            android.util.Log.d("DEBUG_FRAG", "Bottone premuto!")
+            android.util.Log.d("DEBUG_FRAG", "Bottone Salva premuto!")
             val name = binding.etName.text.toString()
             if (name.isBlank()) {
                 binding.tilName.error = "Inserisci un nome"
+                binding.etName.requestFocus()
                 return@setOnClickListener
             }
 
             viewModel.onEvent(AutomationCreateUiEvent.SaveAutomation)
         }
-    }
 
-    private fun updateSaveButtonState(text: String? = null) {
-        val currentText = text ?: binding.etName.text.toString()
-        val isLoading = viewModel.uiState.value.isLoading
-        binding.btnSave.isEnabled = currentText.isNotBlank() && !isLoading
+        binding.btnCancel.setOnClickListener {
+            android.util.Log.d("DEBUG_FRAG", "Bottone Annulla premuto!")
+            viewModel.onEvent(AutomationCreateUiEvent.CancelAutomationCreation)
+        }
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-
-                    updateSaveButtonState()
-                    binding.btnSave.text = if (state.isLoading) "" else getString(R.string.confirm)
+                    // Il pulsante è disabilitato solo durante il caricamento
+                    binding.btnSave.isEnabled = !state.isLoading
+                    binding.btnSave.text = if (state.isLoading) "" else getString(R.string.save)
                     binding.progressSave.isVisible = state.isLoading
 
                     if (state.showConflictDialog && state.simulationResult != null) {
@@ -120,12 +122,16 @@ class AutomationNameFragment : Fragment(R.layout.fragment_automation_name) {
                 viewModel.uiEvent.collect { event ->
                     when (event) {
                         is AutomationCreateUiEvent.AutomationSaved -> {
-                            Toast.makeText(context, "Automazione salvata!", Toast.LENGTH_SHORT).show()
+                            SnackbarHelper.showSuccess(binding.root, R.string.automation_saved)
+                            findNavController().popBackStack(R.id.automation_graph, true)
+                        }
+
+                        is AutomationCreateUiEvent.NavigateBackToAutomations -> {
                             findNavController().popBackStack(R.id.automation_graph, true)
                         }
 
                         is AutomationCreateUiEvent.ShowError -> {
-                            Toast.makeText(context, event.message.asString(requireContext()), Toast.LENGTH_SHORT).show()
+                            SnackbarHelper.showError(binding.root, event.message)
                         }
 
                         else -> { /* Altri eventi gestiti altrove o non pertinenti qui */ }
@@ -136,8 +142,6 @@ class AutomationNameFragment : Fragment(R.layout.fragment_automation_name) {
     }
 
     private fun showConflictDialog(result: SimulationResult) {
-        val context = requireContext()
-
         val sb = StringBuilder()
 
         if (result.conflicts.isNotEmpty()) {
@@ -158,10 +162,10 @@ class AutomationNameFragment : Fragment(R.layout.fragment_automation_name) {
             }
         }
 
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.dialog_conflict_title)
             .setMessage(sb.toString().trim())
-            .setIcon(R.drawable.ic_warning)
+            .setIcon(R.drawable.ic_warning_amber)
             .setPositiveButton(R.string.dialog_conflict_edit) { dialog, _ ->
 
                 viewModel.onEvent(AutomationCreateUiEvent.DismissConflictDialog)

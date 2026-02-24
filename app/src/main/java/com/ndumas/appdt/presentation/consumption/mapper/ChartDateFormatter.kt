@@ -35,10 +35,6 @@ class ChartDateFormatter
             }
         }
 
-        /**
-         * LOGICA INTERNA (Privata): Qui c'è la tua implementazione specifica
-         * per puntini, iniziali e formati data.
-         */
         private fun formatLabel(
             dateString: String,
             filter: ConsumptionTimeFilter,
@@ -48,14 +44,14 @@ class ChartDateFormatter
 
             return when (filter) {
                 ConsumptionTimeFilter.TODAY -> {
-                    if (index % 2 != 0) {
-                        return "•"
-                    }
-
                     val cleanString = dateString.replace(" ", "T")
                     val time = LocalDateTime.parse(cleanString)
-
-                    time.format(DateTimeFormatter.ofPattern("H", locale))
+                    val hour = time.hour
+                    if (hour % 2 == 0) {
+                        hour.toString()
+                    } else {
+                        ""
+                    }
                 }
 
                 ConsumptionTimeFilter.WEEK -> {
@@ -67,7 +63,7 @@ class ChartDateFormatter
                     val date = LocalDate.parse(dateString)
                     val day = date.dayOfMonth
 
-                    if (day in listOf(7, 15, 21, 28)) {
+                    if (day in listOf(1, 8, 15, 22)) {
                         day.toString()
                     } else {
                         ""

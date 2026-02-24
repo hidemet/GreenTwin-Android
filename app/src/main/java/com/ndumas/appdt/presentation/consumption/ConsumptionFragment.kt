@@ -20,14 +20,12 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.tabs.TabLayout
 import com.ndumas.appdt.R
 import com.ndumas.appdt.core.ui.configureConsumptionStyle
-import com.ndumas.appdt.core.ui.consumption.bindPrediction
 import com.ndumas.appdt.databinding.FragmentConsumptionBinding
 import com.ndumas.appdt.domain.consumption.model.ConsumptionBreakdownType
 import com.ndumas.appdt.presentation.consumption.adapter.ConsumptionBreakdownAdapter
 import com.ndumas.appdt.presentation.consumption.formatter.ConsumptionUiFormatter
 import com.ndumas.appdt.presentation.consumption.mapper.ChartDateFormatter
 import com.ndumas.appdt.presentation.consumption.mapper.ConsumptionChartMapper
-import com.ndumas.appdt.presentation.consumption.model.PredictionState
 import com.ndumas.appdt.presentation.consumption.view.ConsumptionMarkerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -96,6 +94,7 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        setupHeader()
         setupTabListener()
         setupNavigationListeners()
         setupToggleGroupListener()
@@ -103,8 +102,20 @@ class ConsumptionFragment : Fragment() {
         setupChartInteractionListener()
     }
 
+    private fun setupHeader() {
+        binding.includeToolbar.toolbar.title = getString(R.string.nav_consumption)
+
+        val tabLayout = binding.includeToolbar.tabLayout
+        if (tabLayout.tabCount == 0) {
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_day))
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_week))
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_month))
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_year))
+        }
+    }
+
     private fun setupTabListener() {
-        binding.tabPeriod.addOnTabSelectedListener(
+        binding.includeToolbar.tabLayout.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     val filter =
@@ -126,16 +137,16 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun setupNavigationListeners() {
-        binding.btnPrevPeriod.setOnClickListener {
+        binding.includeToolbar.btnPrevPeriod.setOnClickListener {
             viewModel.onEvent(ConsumptionEvent.OnPrevPeriod)
         }
-        binding.btnNextPeriod.setOnClickListener {
+        binding.includeToolbar.btnNextPeriod.setOnClickListener {
             viewModel.onEvent(ConsumptionEvent.OnNextPeriod)
         }
     }
 
     private fun setupToggleGroupListener() {
-        binding.toggleGroupFilters.addOnButtonCheckedListener { group, checkedId, isChecked ->
+        binding.toggleGroupFilters.addOnButtonCheckedListener { _, checkedId, isChecked ->
 
             if (isChecked) {
                 val type =
@@ -198,22 +209,23 @@ class ConsumptionFragment : Fragment() {
                 ConsumptionTimeFilter.MONTH -> 2
                 ConsumptionTimeFilter.YEAR -> 3
             }
-        if (binding.tabPeriod.selectedTabPosition != targetTab) {
-            binding.tabPeriod.getTabAt(targetTab)?.select()
+
+        val tabs = binding.includeToolbar.tabLayout
+        if (tabs.selectedTabPosition != targetTab) {
+            tabs.getTabAt(targetTab)?.select()
         }
 
-        binding.tvCurrentDateRange.text = state.formattedDateRange.asString(context)
+        binding.includeToolbar.tvCurrentDateRange.text = state.formattedDateRange.asString(context)
         binding.tvTotalValue.text = state.formattedTotalEnergy.asString(context)
 
-        binding.tvPercentageBadge.bindPrediction(state.predictionModel)
+        // Badge e label previsione sono nascosti nella pagina consumi
+        binding.tvPercentageBadge.isVisible = false
+        binding.tvEstimateLabel.isVisible = false
 
-        binding.tvEstimateLabel.text = state.formattedPredictionLabel.asString(context)
-        binding.tvEstimateLabel.isVisible = state.predictionModel.isVisible
-
-        binding.btnPrevPeriod.isEnabled = true
-        binding.btnPrevPeriod.alpha = 1.0f
-        binding.btnNextPeriod.isEnabled = state.isNextEnabled
-        binding.btnNextPeriod.alpha = if (state.isNextEnabled) 1.0f else 0.3f
+        binding.includeToolbar.btnPrevPeriod.isEnabled = true
+        binding.includeToolbar.btnPrevPeriod.alpha = 1.0f
+        binding.includeToolbar.btnNextPeriod.isEnabled = state.isNextEnabled
+        binding.includeToolbar.btnNextPeriod.alpha = if (state.isNextEnabled) 1.0f else 0.3f
 
         val currentDataHash = state.consumptionData.hashCode()
         if (currentDataHash != lastChartDataHash) {
@@ -249,18 +261,6 @@ class ConsumptionFragment : Fragment() {
         state.error?.let { binding.tvError.text = it.asString(context) }
     }
 
-    private fun resolveBadgeStyle(type: PredictionState) {
-        val (bgRes, textRes) =
-            when (type) {
-                PredictionState.POSITIVE -> Pair(R.drawable.bg_badge_green, R.color.badge_success_text)
-                PredictionState.NEGATIVE -> Pair(R.drawable.bg_badge_error, R.color.badge_error_text)
-                PredictionState.NEUTRAL -> Pair(R.drawable.bg_badge_neutral, R.color.badge_neutral_text)
-            }
-
-        binding.tvPercentageBadge.setBackgroundResource(bgRes)
-        binding.tvPercentageBadge.setTextColor(ContextCompat.getColor(requireContext(), textRes))
-    }
-
     /**
      * Aggiornamento PESANTE: Rigenera dati, assi e animazioni.
      * Chiamato solo quando i dati cambiano (es. cambio periodo).
@@ -268,7 +268,20 @@ class ConsumptionFragment : Fragment() {
     private fun updateChartFull(state: ConsumptionUiState) {
         binding.chartConsumption.xAxis.apply {
             valueFormatter = chartDateFormatter.getAxisFormatter(state.selectedFilter, state.consumptionData)
-            setLabelCount(state.consumptionData.size.coerceAtMost(12), false)
+            // Imposta il numero di etichette in base al filtro
+            val labelCount =
+                when (state.selectedFilter) {
+                    ConsumptionTimeFilter.TODAY -> 24
+
+                    // Tutte le ore
+                    ConsumptionTimeFilter.WEEK -> 7
+
+                    ConsumptionTimeFilter.MONTH -> state.consumptionData.size
+
+                    // Tutti i giorni del mese
+                    ConsumptionTimeFilter.YEAR -> 12
+                }
+            setLabelCount(labelCount, false)
         }
 
         markerView.updateData(state.consumptionData, state.selectedFilter)

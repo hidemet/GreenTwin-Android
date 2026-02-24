@@ -2,7 +2,7 @@
     <string name="app_name">Digital Twin App</string>
     
     <string name="login_title">Benvenuto in Green Smart Home!</string>
-    <string name="login_subtitle">Accedi con le credenziali del tuo account per cominciare ad utilizzare la tua app</string>
+    <string name="login_subtitle">Accedi con le credenziali del tuo account per cominciare ad utilizzare l\'app</string>
     <string name="login_email_hint">Inserisci l\'email</string>
     <string name="login_password_hint">Inserisci la password</string>
     <string name="login_button_text">Procedi</string>
@@ -31,7 +31,7 @@
     
     <string name="format_energy_value">%.0f</string>
     <string name="format_cost_euro">€ %1$.2f</string>
-    <string name="format_prediction_badge">%1$s %2$.0f%%</string> 
+    <string name="format_prediction_badge">%.0f%%</string>
     <string name="placeholder_dash">--</string>
 
     <string name="format_count_devices">%d dispositivi</string>
@@ -41,7 +41,6 @@
     
     <string name="date_format_pattern">MMMM yyyy</string>
     <string name="format_device_count">%d dispositivi</string>
-    <string name="format_prediction_label">vs stima %.0f kWh</string>
 
     
     <string name="tab_day">Giorno</string>
@@ -95,6 +94,9 @@
     <string name="sun_event_sunrise">Quando sorge il sole</string>
     <string name="sun_event_sunset">Quando tramonta il sole</string>
 
+    <!-- Testi brevi per Segmented Button -->
+    <string name="sun_button_sunrise">Alba</string>
+    <string name="sun_button_sunset">Tramonto</string>
 
     <string name="sun_at_sunrise">Esattamente all\'alba</string>
     <string name="sun_before_sunrise_m">%d min prima dell\'alba</string>
@@ -124,7 +126,7 @@
     <string name="next_date_desc">Vai alla data successiva</string>
     <string name="automation_trigger_sun_offset_title">Quando?</string>
     <string name="cancel">Annulla</string>
-    <string name="confirm">Conferma\n</string>
+    <string name="confirm">Conferma</string>
 
     
     <string name="logout">Esci</string>
@@ -133,4 +135,79 @@
         <item quantity="one">%d Automazione</item>
         <item quantity="other">%d Automazioni</item>
     </plurals>
+
+    <!-- Automation Detail -->
+    <string name="automation_status">Stato</string>
+    <string name="automation_status_active">Attiva</string>
+    <string name="automation_status_inactive">Disattivata</string>
+    <string name="automation_when_label">Quando</string>
+    <string name="automation_then_label">Allora</string>
+    <string name="automation_description_label">Descrizione</string>
+    <string name="automation_detail_title">Dettagli automazione</string>
+    <string name="automation_activated">Automazione attivata</string>
+    <string name="automation_deactivated">Automazione disattivata</string>
+    <string name="automation_deleted">Automazione eliminata</string>
+    <string name="automation_updated">Automazione aggiornata</string>
+    <string name="edit">Modifica</string>
+    <string name="delete">Elimina</string>
+    <string name="duplicate">Duplica</string>
+    <string name="retry">Riprova</string>
+    <string name="delete_automation_title">Eliminare l\'automazione?</string>
+    <string name="delete_automation_message">Questa azione non può essere annullata.</string>
+    <string name="automation_trigger_time">Orario</string>
+    <string name="automation_trigger_solar">Evento solare</string>
+    <string name="automation_trigger_device">Stato dispositivo</string>
+    <string name="automation_at_time">Alle %s</string>
+    <string name="automation_at_sunrise">All\'alba</string>
+    <string name="automation_at_sunset">Al tramonto</string>
+    <string name="automation_when_device_changes">Quando %s cambia</string>
+    <string name="automation_no_trigger">Nessun trigger configurato</string>
+    <string name="automation_no_actions">Nessuna azione configurata</string>
+    <string name="automation_missing_trigger_or_action">Aggiungi un trigger e almeno un\'azione per procedere</string>
+    <string name="automation_trigger_no_repeat">Non si ripete</string>
+    <string name="automation_trigger_every_day">Ogni giorno</string>
+
+    <!-- Traduzioni azioni automazioni -->
+    <string name="action_turn_on">Accendi</string>
+    <string name="action_turn_off">Spegni</string>
+    <string name="action_toggle">Inverti</string>
+
+    <string name="error_not_found">Elemento non trovato</string>
+    <string name="edit_automation_title">Modifica automazione</string>
+    <string name="edit_automation_name_title">Modifica nome</string>
+    <string name="error_empty_name">Inserisci un nome</string>
+    <string name="device_detail_name">Nome</string>
+    <string name="device_detail_type">Tipo dispositivo</string>
+    <string name="device_detail_room">Stanza</string>
+    <string name="device_detail_group">Gruppo</string>
+    <string name="device_detail_title">Dettagli dispositivo</string>
+    <string name="device_detail_info_label">INFORMAZIONI</string>
+    <string name="device_detail_position_label">POSIZIONE</string>
+    <string name="no_room">Nessuna stanza</string>
+    <string name="no_group">Nessun gruppo</string>
+
+    <!-- Content Descriptions per Accessibilità -->
+    <string name="content_desc_automation_icon">Icona automazione</string>
+    <string name="content_desc_remove_widget">Rimuovi widget</string>
+    <string name="content_desc_drag_handle">Trascina per riordinare</string>
+
+    <!-- Widget Energia -->
+    <string name="energy_widget_title">In tempo reale</string>
+    <string name="energy_unit_kwh">kWh</string>
+    <string name="energy_comparison_text">Rispetto alle\nstime giornaliere</string>
+
+    <!-- Snackbar -->
+    <string name="snackbar_undo">Annulla</string>
+    <string name="snackbar_retry">Riprova</string>
+    <string name="automation_deleted_pending">Automazione eliminata</string>
+    <string name="automation_delete_cancelled">Eliminazione annullata</string>
+    <string name="automation_saved">Automazione salvata</string>
+    <string name="title_customize_home">Personalizza Home</string>
+    <string name="title_home">Home</string>
+    <string name="action_toggle_visibility">Mostra/Nascondi sezione</string>
+    <string name="action_expand_collapse">Espandi/Comprimi sezione</string>
+
+    <!-- Dashboard Empty State -->
+    <string name="dashboard_all_hidden_title">Nessuna sezione visibile</string>
+    <string name="dashboard_all_hidden_description">Tutte le sezioni sono nascoste. Tocca il pulsante di modifica per personalizzare la dashboard.</string>
 </resources>

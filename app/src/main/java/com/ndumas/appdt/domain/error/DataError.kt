@@ -19,5 +19,6 @@ sealed interface DataError : Error {
         MISSING_TRIGGER,
         NO_ACTIONS,
         INVALID_DRAFT,
+        NOT_FOUND,
     }
 }

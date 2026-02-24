@@ -9,7 +9,6 @@ import com.ndumas.appdt.domain.consumption.usecase.GetConsumptionBreakdownUseCas
 import com.ndumas.appdt.domain.consumption.usecase.GetConsumptionHistoryUseCase
 import com.ndumas.appdt.presentation.consumption.formatter.ConsumptionUiFormatter
 import com.ndumas.appdt.presentation.consumption.mapper.ConsumptionUiMapper
-import com.ndumas.appdt.presentation.consumption.model.PredictionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +20,13 @@ import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
+/**
+ * ViewModel per la schermata Consumi.
+ *
+ * Gestisce:
+ * - Visualizzazione consumi per giorno/settimana/mese/anno
+ * - Breakdown per dispositivo/stanza/gruppo
+ */
 @HiltViewModel
 class ConsumptionViewModel
     @Inject
@@ -36,7 +42,6 @@ class ConsumptionViewModel
         private var loadJob: Job? = null
 
         companion object {
-            private const val PREDICTION_MULTIPLIER = 1.15
             private const val DAYS_IN_WEEK = 7L
             private const val YEARS_IN_PERIOD = 1L
         }
@@ -154,7 +159,6 @@ class ConsumptionViewModel
                             currentDate = referenceDate,
                             formattedDateRange = formatter.formatDateRange(referenceDate, filter),
                             selectedIndex = -1,
-                            predictionModel = PredictionUiModel.Hidden,
                             isNextEnabled = isNextEnabled,
                         )
                     }
@@ -185,23 +189,13 @@ class ConsumptionViewModel
                         val totalEnergy = data.sumOf { it.energyKwh }
                         val totalCost = data.sumOf { it.cost }
 
-                        val predicted =
-                            if (totalEnergy > 0.1) {
-                                totalEnergy * (0.90 + Math.random() * 0.30)
-                            } else {
-                                15.0 + Math.random() * 5.0
-                            }
-
                         _uiState.update {
                             it.copy(
                                 consumptionData = data,
                                 totalEnergy = totalEnergy,
                                 totalCost = totalCost,
-                                predictedEnergy = predicted,
                                 formattedTotalEnergy = formatter.formatEnergyValueOnly(totalEnergy),
                                 formattedTotalCost = formatter.formatCost(totalCost),
-                                predictionModel = formatter.formatPredictionModel(totalEnergy, predicted),
-                                formattedPredictionLabel = formatter.formatPredictionLabel(predicted),
                                 selectedIndex = -1,
                             )
                         }

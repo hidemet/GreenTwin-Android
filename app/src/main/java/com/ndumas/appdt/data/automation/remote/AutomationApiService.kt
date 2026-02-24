@@ -4,8 +4,10 @@ import com.ndumas.appdt.data.automation.remote.dto.AutomationDto
 import com.ndumas.appdt.data.automation.remote.dto.AutomationRequestDto
 import com.ndumas.appdt.data.automation.remote.dto.SimulationResponseDto
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AutomationApiService {
@@ -16,6 +18,11 @@ interface AutomationApiService {
 
     @GET("automation")
     suspend fun getAutomations(): List<AutomationDto>
+
+    @DELETE("automation/{id}")
+    suspend fun deleteAutomation(
+        @Path("id") id: String,
+    ): Any
 
     @POST("automation/simulate")
     suspend fun simulateAutomation(

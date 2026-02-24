@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_header_title"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/section_header_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:paddingTop="24dp"
     android:paddingBottom="8dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="16dp"
-    android:paddingHorizontal="4dp"
-    android:text="Titolo Sezione"
-    android:textColor="#191D12"
-    android:textSize="18sp"
-    android:textStyle="bold" />
+    android:paddingHorizontal="16dp">
 
+    <TextView
+        android:id="@+id/tv_header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="Dispositivi Preferiti"
+        android:textColor="?attr/colorOnSurface"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_visibility_toggle"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/action_toggle_visibility"
+        android:visibility="gone"
+        app:icon="@drawable/ic_visibility"
+        app:iconTint="?attr/colorOnSurfaceVariant" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_section_item"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/action_add"
+        app:icon="@drawable/ic_add"
+        app:iconTint="?attr/colorOnSurfaceVariant" />
+
+</LinearLayout>

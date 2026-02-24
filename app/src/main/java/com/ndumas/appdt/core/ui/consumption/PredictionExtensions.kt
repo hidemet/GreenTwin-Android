@@ -17,13 +17,17 @@ fun TextView.bindPrediction(model: PredictionUiModel) {
     this.text = model.text.asString(this.context)
 
     // Risoluzione stile
-    val (bgRes, textColorRes) =
+    val (bgRes, textColorRes, iconRes) =
         when (model.state) {
-            PredictionState.POSITIVE -> R.drawable.bg_badge_green to R.color.badge_success_text
-            PredictionState.NEGATIVE -> R.drawable.bg_badge_error to R.color.badge_error_text
-            PredictionState.NEUTRAL -> R.drawable.bg_badge_neutral to R.color.badge_neutral_text
+            PredictionState.POSITIVE -> Triple(R.drawable.bg_badge_green, R.color.badge_success_text, R.drawable.ic_trending_down)
+            PredictionState.NEGATIVE -> Triple(R.drawable.bg_badge_error, R.color.badge_error_text, R.drawable.ic_trending_up)
+            PredictionState.NEUTRAL -> Triple(R.drawable.bg_badge_neutral, R.color.badge_neutral_text, R.drawable.ic_trending_flat)
         }
 
     this.setBackgroundResource(bgRes)
     this.setTextColor(ContextCompat.getColor(this.context, textColorRes))
+
+    // Imposta icona trending con tint appropriato
+    this.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+    this.compoundDrawableTintList = ContextCompat.getColorStateList(this.context, textColorRes)
 }

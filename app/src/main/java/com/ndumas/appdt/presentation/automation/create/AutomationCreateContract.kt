@@ -58,6 +58,10 @@ sealed interface AutomationCreateUiEvent {
         val conflicts: List<AutomationConflict>,
     ) : AutomationCreateUiEvent
 
+    data object CancelAutomationCreation : AutomationCreateUiEvent
+
+    data object NavigateBackToAutomations : AutomationCreateUiEvent
+
     data class ShowError(
         val message: UiText,
     ) : AutomationCreateUiEvent

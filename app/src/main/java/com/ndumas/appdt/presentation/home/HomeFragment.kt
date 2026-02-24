@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,10 +16,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.ndumas.appdt.R
+import com.ndumas.appdt.core.ui.SnackbarHelper
 import com.ndumas.appdt.databinding.FragmentHomeBinding
 import com.ndumas.appdt.presentation.MainViewModel
+import com.ndumas.appdt.presentation.home.model.DashboardSectionType
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest // Importa collectLatest
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -50,23 +51,8 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentFragmentManager.setFragmentResultListener(
-            AddWidgetBottomSheet.REQUEST_KEY,
-            viewLifecycleOwner,
-        ) { _, bundle ->
-            val type = bundle.getString(AddWidgetBottomSheet.RESULT_KEY)
-
-            if (type == AddWidgetBottomSheet.TYPE_DEVICE) {
-                val selectionSheet = WidgetSelectionBottomSheet()
-                selectionSheet.show(parentFragmentManager, WidgetSelectionBottomSheet.TAG)
-            } else if (type == AddWidgetBottomSheet.TYPE_AUTOMATION) {
-                // TODO: Gestire automazioni in futuro
-                Toast.makeText(requireContext(), "Automazioni in arrivo!", Toast.LENGTH_SHORT).show()
-            }
-        }
         setupRecyclerView()
         setupToolbar()
-        setupFab()
         setupSwipeRefresh()
         observeUiState()
     }
@@ -89,12 +75,20 @@ class HomeFragment : Fragment() {
                     viewModel.onDeviceLongClicked(widget.device)
                 },
                 // AUTOMAZIONI
-                onAutomationToggle = { widget ->
-                    // TODO: futuro viewModel.onAutomationToggle(widget)
-                    Toast.makeText(context, "Automazione: ${widget.name}", Toast.LENGTH_SHORT).show()
-                },
                 onAutomationDetails = { widget ->
-                    Toast.makeText(context, "Dettagli Automazione: ${widget.name}", Toast.LENGTH_SHORT).show()
+                    // Naviga alla schermata dettagli automazione
+                    val bundle =
+                        Bundle().apply {
+                            putString("automationId", widget.id)
+                        }
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_automationDetailFragment,
+                        bundle,
+                    )
+                },
+                // STANZE/GRUPPI
+                onRoomGroupClick = { widget ->
+                    viewModel.onRoomGroupClicked(widget)
                 },
                 // EDIT MODE
                 onDeleteClick = { item ->
@@ -106,8 +100,19 @@ class HomeFragment : Fragment() {
                         android.util.Log.d("DragDebug", "Calling itemTouchHelper.startDrag()")
                         itemTouchHelper.startDrag(holder)
                     } else {
-                        Toast.makeText(context, "Errore: Drag helper non pronto", Toast.LENGTH_SHORT).show()
+                        SnackbarHelper.showError(binding.root, "Errore: Drag helper non pronto")
                     }
+                },
+                // WIDGET ENERGIA
+                onEnergyWidgetClick = {
+                    // Naviga alla pagina consumi (tab Giorno selezionata di default)
+                    findNavController().navigate(R.id.consumptionFragment)
+                },
+                onAddClick = { type ->
+                    viewModel.onAddWidgetClick(type)
+                },
+                onSectionVisibilityToggle = { type ->
+                    viewModel.toggleSectionVisibility(type)
                 },
             )
 
@@ -119,6 +124,7 @@ class HomeFragment : Fragment() {
                     return when (viewType) {
                         DashboardAdapter.TYPE_ENERGY,
                         DashboardAdapter.TYPE_HEADER,
+                        DashboardAdapter.TYPE_EMPTY_STATE,
                         -> 2
 
                         else -> 1
@@ -141,16 +147,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        binding.btnEditPencil.setOnClickListener { viewModel.toggleEditMode() }
-        binding.btnDone.setOnClickListener { viewModel.saveEditModeChanges() }
-        binding.btnCloseEdit.setOnClickListener { viewModel.toggleEditMode() }
-        binding.ivProfile.setOnClickListener { view ->
+        binding.includeToolbar.btnEdit.setOnClickListener { viewModel.toggleEditMode() }
+        binding.includeToolbar.btnDone.setOnClickListener { viewModel.saveEditModeChanges() }
+        binding.includeToolbar.btnCloseEdit.setOnClickListener { viewModel.toggleEditMode() }
+        binding.includeToolbar.ivProfile.setOnClickListener { view ->
             showUserMenu(view)
         }
     }
 
     private fun showUserMenu(anchor: View) {
-        val popup = PopupMenu(requireContext(), anchor)
+        val popup = PopupMenu(requireContext(), anchor, 0, 0, R.style.Widget_App_PopupMenu_Surface)
         popup.menuInflater.inflate(R.menu.menu_user_profile, popup.menu)
         popup.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -165,12 +171,6 @@ class HomeFragment : Fragment() {
             }
         }
         popup.show()
-    }
-
-    private fun setupFab() {
-        binding.fabAddWidget.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_addWidgetBottomSheet)
-        }
     }
 
     private fun observeUiState() {
@@ -188,28 +188,47 @@ class HomeFragment : Fragment() {
                         binding.tvError.isVisible = state.error != null
                         state.error?.let { binding.tvError.text = it.asString(requireContext()) }
 
+                        // IMPORTANTE: Impostare prima lo stato dell'adapter
+                        touchHelperCallback.isEditMode = state.isEditMode
+                        dashboardAdapter.setHiddenSections(state.hiddenSections)
+                        dashboardAdapter.setEditMode(state.isEditMode)
+
                         if (!state.isLoading) {
-                            dashboardAdapter.submitList(state.dashboardItems)
+                            // Aggiorna la lista, poi applica i cambiamenti di stato pendenti
+                            dashboardAdapter.submitList(state.dashboardItems) {
+                                dashboardAdapter.applyPendingStateChanges()
+                            }
                         }
                         updateEditModeUi(state.isEditMode)
-
-                        touchHelperCallback.isEditMode = state.isEditMode
-                        dashboardAdapter.setEditMode(state.isEditMode)
                     }
                 }
 
                 launch {
                     viewModel.uiEvent.collectLatest { event ->
-
                         when (event) {
-                            is HomeUiEvent.NavigateToLightControl -> {
-                                val action = HomeFragmentDirections.actionHomeFragmentToLightControlFragment(event.entityId)
+                            is HomeUiEvent.NavigateToDeviceControl -> {
+                                val action = HomeFragmentDirections.actionHomeFragmentToDeviceControlFragment(event.entityId)
                                 findNavController().navigate(action)
                             }
 
                             is HomeUiEvent.ShowToast -> {
-                                Toast.makeText(requireContext(), event.message.asString(requireContext()), Toast.LENGTH_SHORT).show()
+                                SnackbarHelper.showInfo(binding.root, event.message)
                             }
+
+                            is HomeUiEvent.NavigateToDevicesWithScroll -> {
+                                val bundle =
+                                    Bundle().apply {
+                                        putString("scrollTarget", event.targetName)
+                                        putBoolean("isRoom", event.isRoom)
+                                    }
+                                findNavController().navigate(R.id.deviceFragment, bundle)
+                            }
+
+                            is HomeUiEvent.OpenAddWidgetSheet -> {
+                                openWidgetSelectionSheet(event.type)
+                            }
+
+                            else -> {}
                         }
                     }
                 }
@@ -219,17 +238,38 @@ class HomeFragment : Fragment() {
 
     private fun updateEditModeUi(isEditMode: Boolean) {
         if (isEditMode) {
-            binding.tvToolbarTitle.text = "Personalizza Home"
-            binding.btnCloseEdit.visibility = View.VISIBLE
-            binding.btnDone.visibility = View.VISIBLE
-            binding.fabAddWidget.show()
-            binding.groupNormalMode.visibility = View.GONE
+            binding.includeToolbar.tvTitle.text = getString(R.string.title_customize_home)
+            binding.includeToolbar.btnCloseEdit.visibility = View.VISIBLE
+            binding.includeToolbar.btnDone.visibility = View.VISIBLE
+            binding.includeToolbar.groupActions.visibility = View.GONE
         } else {
-            binding.tvToolbarTitle.text = "Home"
-            binding.btnCloseEdit.visibility = View.GONE
-            binding.btnDone.visibility = View.GONE
-            binding.fabAddWidget.hide()
-            binding.groupNormalMode.visibility = View.VISIBLE
+            binding.includeToolbar.tvTitle.text = getString(R.string.title_home)
+            binding.includeToolbar.btnCloseEdit.visibility = View.GONE
+            binding.includeToolbar.btnDone.visibility = View.GONE
+            binding.includeToolbar.groupActions.visibility = View.VISIBLE
+        }
+    }
+
+    private fun openWidgetSelectionSheet(type: DashboardSectionType) {
+        when (type) {
+            DashboardSectionType.DEVICES -> {
+                val selectionSheet = WidgetSelectionBottomSheet()
+                selectionSheet.show(parentFragmentManager, WidgetSelectionBottomSheet.TAG)
+            }
+
+            DashboardSectionType.AUTOMATIONS -> {
+                val automationSheet = AutomationSelectionBottomSheet()
+                automationSheet.show(parentFragmentManager, AutomationSelectionBottomSheet.TAG)
+            }
+
+            DashboardSectionType.ROOMS_GROUPS -> {
+                val roomGroupSheet = RoomGroupSelectionBottomSheet()
+                roomGroupSheet.show(parentFragmentManager, RoomGroupSelectionBottomSheet.TAG)
+            }
+
+            DashboardSectionType.INFO -> {
+                // Info non ha un add widget sheet per ora, o se vuoi gestire qualcosa puoi farlo qui
+            }
         }
     }
 

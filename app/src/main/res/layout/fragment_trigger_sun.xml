@@ -7,26 +7,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-   
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/include_toolbar_standard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIconTint="?attr/colorOnSurface"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Se"
-            app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-            app:titleCentered="false"
-            android:background="@android:color/transparent" />
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
    
     <androidx.core.widget.NestedScrollView
@@ -34,7 +22,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/include_toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -76,42 +64,35 @@
                         android:orientation="vertical"
                         android:gravity="center">
 
-                       
-                       
-                        <LinearLayout
-                            android:id="@+id/layout_event_selector"
+                        <!-- Segmented Button per selezione Alba/Tramonto -->
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/toggle_group_event"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground"
-                            android:padding="16dp"
-                            android:layout_marginBottom="8dp">
+                            android:layout_marginBottom="16dp"
+                            app:singleSelection="true"
+                            app:selectionRequired="true">
 
-                           
-                            <ImageView
-                                android:id="@+id/iv_event_icon"
-                                android:layout_width="72dp"
-                                android:layout_height="72dp"
-                                android:src="@drawable/ic_wb_twilight"
-                                app:tint="?attr/colorPrimary"
-                                android:contentDescription="Icona evento solare"
-                                android:layout_marginBottom="16dp"/>
-
-                           
-                            <TextView
-                                android:id="@+id/tv_event_label"
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_sunrise"
+                                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Quando sorge il sole"
-                                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                                android:textColor="?attr/colorOnSurface"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
+                                android:text="@string/sun_button_sunrise"
+                                app:icon="@drawable/ic_sunrise"
+                                android:checked="true"/>
 
-                       
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_sunset"
+                                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sun_button_sunset"
+                                app:icon="@drawable/ic_sunset"/>
+
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                        <!-- Bottone selezione offset -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_offset_selector"
                             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -145,87 +126,7 @@
                         android:layout_marginBottom="16dp"/>
 
                    
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupDays"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:chipSpacingHorizontal="4dp"
-                        app:chipSpacingVertical="0dp"
-                        app:singleSelection="false"
-                        app:selectionRequired="false"
-                        android:gravity="center">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_mon"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="L"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_tue"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="M"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_wed"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="M"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_thu"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="G"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false"/>
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_fri"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="V"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_sat"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="S"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false"/>
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_sun"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="D"
-                            app:chipCornerRadius="20dp"
-                            app:chipMinTouchTargetSize="48dp"
-                            app:checkedIconVisible="false" />
-
-                    </com.google.android.material.chip.ChipGroup>
+                    <include layout="@layout/chip_group_days" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -247,7 +148,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Salva"
-            android:enabled="false"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            android:enabled="true"
             android:minHeight="56dp" />
     </LinearLayout>
 

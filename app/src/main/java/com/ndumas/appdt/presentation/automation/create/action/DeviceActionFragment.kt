@@ -49,7 +49,7 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDeviceActionBinding.bind(view)
 
-        setupHeader()
+        setupToolbar()
         setupInteractions()
         setupColorGrid()
 
@@ -77,7 +77,7 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
                     val action =
                         DeviceActionFragmentDirections.actionDeviceActionFragmentToPaletteBottomSheet(
                             deviceId = args.deviceId,
-                            startTab = 1, // FORZIAMO TAB COLORE
+                            startTab = 1,
                         )
                     findNavController().navigate(action)
                 },
@@ -86,10 +86,13 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
         binding.rvColors.adapter = colorAdapter
     }
 
-    private fun setupHeader() {
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+    private fun setupToolbar() {
+        with(binding.includeToolbar.toolbar) {
+            setNavigationOnClickListener { findNavController().popBackStack() }
 
-        binding.toolbar.title = "Configura Dispositivo"
+            // Se il device non è ancora caricato
+            title = "Configura Dispositivo"
+        }
     }
 
     private fun observeState() {
@@ -107,7 +110,7 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
                             setupVisibility(device)
 
                             if (!isLoading) {
-                                binding.toolbar.title = "Configura ${device.name}"
+                                binding.includeToolbar.toolbar.title = "Configura ${device.name}"
                             }
                         }
                     }
@@ -117,7 +120,7 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
     }
 
     /**
-     * Cuore della Logica UI: Mostra/Nasconde le card in base alle CAPABILITIES reali.
+     * Mostra/Nasconde le card in base alle CAPABILITIES reali.
      */
     private fun setupVisibility(device: DeviceDetail) {
         binding.cardBrightness.isVisible = false
@@ -138,21 +141,10 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
             // Per Switch, Sensor, e altri tipi generici, lasciamo tutto nascosto
             else -> {}
         }
-
-        if (!binding.switchState.isChecked) {
-            binding.switchState.isChecked = true
-        }
     }
 
     private fun setupInteractions() {
-        // STATO (On/Off)
-        binding.switchState.setOnCheckedChangeListener { _, isChecked ->
-            binding.toggleGroupState.isEnabled = isChecked
-            binding.btnOn.isEnabled = isChecked
-            binding.btnOff.isEnabled = isChecked
-            updateSaveButton()
-        }
-
+        // STATO (On/Off) - Toggle Group
         binding.toggleGroupState.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked && checkedId == R.id.btn_off) {
                 // Disattiva tutti gli altri toggle quando si seleziona "Spegni"
@@ -163,10 +155,10 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
             updateSaveButton()
         }
 
-        // LUMINOSITÀ
+        // LUMINOSITÀ - imposta visibilità iniziale (switch parte da OFF)
+        binding.sliderBrightness.isVisible = binding.switchBrightness.isChecked
         binding.switchBrightness.setOnCheckedChangeListener { _, isChecked ->
-            binding.sliderBrightness.isEnabled = isChecked
-            binding.sliderBrightness.alpha = if (isChecked) 1.0f else 0.5f
+            binding.sliderBrightness.isVisible = isChecked
             updateSaveButton()
         }
 
@@ -201,11 +193,8 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
     private fun saveAction() {
         val params = mutableMapOf<String, Any>()
 
-        var command = "turn_on"
-        if (binding.switchState.isChecked) {
-            val isTurnOn = binding.toggleGroupState.checkedButtonId == R.id.btn_on
-            command = if (isTurnOn) "turn_on" else "turn_off"
-        }
+        val isTurnOn = binding.toggleGroupState.checkedButtonId == R.id.btn_on
+        val command = if (isTurnOn) "turn_on" else "turn_off"
 
         // Se è un comando di accensione, raccogli i parametri
         if (command == "turn_on") {
@@ -235,7 +224,7 @@ class DeviceActionFragment : Fragment(R.layout.fragment_device_action) {
             AutomationAction.DeviceAction(
                 deviceId = args.deviceId,
                 deviceName =
-                    binding.toolbar.title
+                    binding.includeToolbar.toolbar.title
                         .toString()
                         .removePrefix("Configura "),
                 domain = getDomainFromType(initialDeviceType),

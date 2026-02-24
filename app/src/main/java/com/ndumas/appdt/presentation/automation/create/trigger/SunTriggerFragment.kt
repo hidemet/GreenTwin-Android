@@ -41,38 +41,32 @@ class SunTriggerFragment : Fragment(R.layout.fragment_trigger_sun) {
         setupDaySelection()
         setupSave()
 
-        updateEventUi()
+        // Set Alba (Sunrise) as default
+        binding.toggleGroupEvent.check(R.id.btn_sunrise)
+
         updateOffsetUi()
         updateSaveButtonState()
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+        with(binding.includeToolbar.toolbar) {
+            title = "Se"
+            setNavigationOnClickListener { findNavController().popBackStack() }
         }
     }
 
     private fun setupEventToggle() {
-        binding.layoutEventSelector.setOnClickListener {
-            selectedEvent =
-                if (selectedEvent == SolarEvent.SUNRISE) {
-                    SolarEvent.SUNSET
-                } else {
-                    SolarEvent.SUNRISE
-                }
-            updateEventUi()
+        binding.toggleGroupEvent.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                selectedEvent =
+                    when (checkedId) {
+                        R.id.btn_sunrise -> SolarEvent.SUNRISE
+                        R.id.btn_sunset -> SolarEvent.SUNSET
+                        else -> SolarEvent.SUNRISE
+                    }
+                updateOffsetUi()
+            }
         }
-    }
-
-    private fun updateEventUi() {
-        if (selectedEvent == SolarEvent.SUNRISE) {
-            binding.ivEventIcon.setImageResource(R.drawable.ic_wb_twilight)
-            binding.tvEventLabel.text = getString(R.string.sun_event_sunrise)
-        } else {
-            binding.ivEventIcon.setImageResource(R.drawable.ic_wb_twilight)
-            binding.tvEventLabel.text = getString(R.string.sun_event_sunset)
-        }
-        updateOffsetUi()
     }
 
     private fun setupOffsetSelector() {
@@ -95,20 +89,21 @@ class SunTriggerFragment : Fragment(R.layout.fragment_trigger_sun) {
         binding.btnOffsetSelector.text = label.asString(requireContext())
     }
 
+    private fun getDayChip(id: Int) = binding.root.findViewById<com.google.android.material.chip.Chip>(id)
+
     private fun setupDaySelection() {
         val dayChips =
             listOf(
-                binding.chipMon,
-                binding.chipTue,
-                binding.chipWed,
-                binding.chipThu,
-                binding.chipFri,
-                binding.chipSat,
-                binding.chipSun,
+                getDayChip(R.id.chip_mon),
+                getDayChip(R.id.chip_tue),
+                getDayChip(R.id.chip_wed),
+                getDayChip(R.id.chip_thu),
+                getDayChip(R.id.chip_fri),
+                getDayChip(R.id.chip_sat),
+                getDayChip(R.id.chip_sun),
             )
-
         dayChips.forEach { chip ->
-            chip.setOnCheckedChangeListener { _, _ -> updateSaveButtonState() }
+            chip?.setOnCheckedChangeListener { _, _ -> updateSaveButtonState() }
         }
     }
 
@@ -119,13 +114,13 @@ class SunTriggerFragment : Fragment(R.layout.fragment_trigger_sun) {
     private fun setupSave() {
         binding.btnSave.setOnClickListener {
             val selectedDays = mutableListOf<DayOfWeek>()
-            if (binding.chipMon.isChecked) selectedDays.add(DayOfWeek.MONDAY)
-            if (binding.chipTue.isChecked) selectedDays.add(DayOfWeek.TUESDAY)
-            if (binding.chipWed.isChecked) selectedDays.add(DayOfWeek.WEDNESDAY)
-            if (binding.chipThu.isChecked) selectedDays.add(DayOfWeek.THURSDAY)
-            if (binding.chipFri.isChecked) selectedDays.add(DayOfWeek.FRIDAY)
-            if (binding.chipSat.isChecked) selectedDays.add(DayOfWeek.SATURDAY)
-            if (binding.chipSun.isChecked) selectedDays.add(DayOfWeek.SUNDAY)
+            if (getDayChip(R.id.chip_mon)?.isChecked == true) selectedDays.add(DayOfWeek.MONDAY)
+            if (getDayChip(R.id.chip_tue)?.isChecked == true) selectedDays.add(DayOfWeek.TUESDAY)
+            if (getDayChip(R.id.chip_wed)?.isChecked == true) selectedDays.add(DayOfWeek.WEDNESDAY)
+            if (getDayChip(R.id.chip_thu)?.isChecked == true) selectedDays.add(DayOfWeek.THURSDAY)
+            if (getDayChip(R.id.chip_fri)?.isChecked == true) selectedDays.add(DayOfWeek.FRIDAY)
+            if (getDayChip(R.id.chip_sat)?.isChecked == true) selectedDays.add(DayOfWeek.SATURDAY)
+            if (getDayChip(R.id.chip_sun)?.isChecked == true) selectedDays.add(DayOfWeek.SUNDAY)
 
             val trigger =
                 AutomationTrigger.Solar(

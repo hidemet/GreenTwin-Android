@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ndumas.appdt.R
 import com.ndumas.appdt.databinding.BottomSheetWidgetSelectionBinding
 import com.ndumas.appdt.presentation.home.adapter.GroupedSelectableAdapter
-import com.ndumas.appdt.presentation.home.model.SelectionItem
+import com.ndumas.appdt.presentation.home.model.SelectionUiItem
 import kotlinx.coroutines.launch
 
 class WidgetSelectionBottomSheet : BottomSheetDialogFragment() {
@@ -61,6 +61,10 @@ class WidgetSelectionBottomSheet : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        binding.btnClose.setOnClickListener {
+            dismiss()
+        }
+
         binding.btnCloseEmpty.setOnClickListener {
             dismiss()
         }
@@ -69,21 +73,18 @@ class WidgetSelectionBottomSheet : BottomSheetDialogFragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.selectionItems.collect { items ->
+                viewModel.selectionGroups.collect { groups ->
 
-                    if (items.isEmpty()) {
+                    if (groups.isEmpty()) {
                         binding.layoutContent.visibility = View.GONE
                         binding.layoutEmpty.visibility = View.VISIBLE
                     } else {
                         binding.layoutContent.visibility = View.VISIBLE
                         binding.layoutEmpty.visibility = View.GONE
 
-                        adapter.submitList(items)
+                        adapter.submitList(groups)
 
-                        val selectedCount =
-                            items
-                                .filterIsInstance<SelectionItem.SelectableDevice>()
-                                .count { it.isSelected }
+                        val selectedCount = groups.flatMap { it.items }.count { it.isSelected }
 
                         val hasSelection = selectedCount > 0
                         binding.btnConfirmAdd.isEnabled = hasSelection

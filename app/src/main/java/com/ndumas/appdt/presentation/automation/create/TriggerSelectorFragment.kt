@@ -2,10 +2,10 @@ package com.ndumas.appdt.presentation.automation.create
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ndumas.appdt.R
+import com.ndumas.appdt.core.ui.SnackbarHelper
 import com.ndumas.appdt.databinding.FragmentTriggerSelectorBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,8 +21,11 @@ class TriggerSelectorFragment : Fragment(R.layout.fragment_trigger_selector) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentTriggerSelectorBinding.bind(view)
 
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+        with(binding.includeToolbar.toolbar) {
+            title = "Se" // Impostiamo il titolo
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
         binding.cardOptionTime.setOnClickListener {
             findNavController().navigate(R.id.action_selector_to_timeTrigger)
@@ -33,7 +36,7 @@ class TriggerSelectorFragment : Fragment(R.layout.fragment_trigger_selector) {
         }
 
         binding.cardOptionDevice.setOnClickListener {
-            Toast.makeText(context, "WIP", Toast.LENGTH_SHORT).show()
+            SnackbarHelper.showInfo(binding.root, "WIP")
         }
     }
 

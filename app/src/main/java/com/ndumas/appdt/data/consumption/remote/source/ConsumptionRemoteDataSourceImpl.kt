@@ -2,6 +2,7 @@ package com.ndumas.appdt.data.consumption.remote.source
 
 import com.ndumas.appdt.data.consumption.remote.ConsumptionApiService
 import com.ndumas.appdt.data.consumption.remote.dto.ConsumptionDto
+import com.ndumas.appdt.data.consumption.remote.dto.PredictionResponseDto
 import javax.inject.Inject
 
 class ConsumptionRemoteDataSourceImpl
@@ -21,4 +22,6 @@ class ConsumptionRemoteDataSourceImpl
             endDate: String,
             group: String,
         ): List<ConsumptionDto> = api.getEntitiesConsumption(entityIds, startDate, endDate, group)
+
+        override suspend fun getDailyPrediction(): PredictionResponseDto = api.getDailyPrediction()
     }

@@ -34,14 +34,22 @@ class ActionSelectorFragment : Fragment(R.layout.fragment_action_selector) {
         viewModel.onEvent(AutomationCreateUiEvent.LoadActionDevices)
     }
 
-    private fun setupUI() {
-        binding.toolbar.setNavigationOnClickListener {
+    private fun setupToolBar() {
+        binding.includeToolbar.toolbar.title = "Allora"
+        binding.includeToolbar.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun setupUI() {
+//        binding.toolbar.setNavigationOnClickListener {
+//            findNavController().popBackStack()
+//        }
+
+        setupToolBar()
 
         val adapter =
             ActionGroupAdapter { device ->
-
                 val action =
                     ActionSelectorFragmentDirections.actionSelectorToDeviceAction(
                         deviceId = device.id,
@@ -50,7 +58,7 @@ class ActionSelectorFragment : Fragment(R.layout.fragment_action_selector) {
                 findNavController().navigate(action)
             }
         binding.rvDevices.adapter = adapter
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+//        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
     }
 
     private fun observeState() {

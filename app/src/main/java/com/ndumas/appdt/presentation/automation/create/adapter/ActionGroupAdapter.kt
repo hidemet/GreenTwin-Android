@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.ndumas.appdt.R
 import com.ndumas.appdt.core.ui.device.getUiStyle
 import com.ndumas.appdt.databinding.ItemRoomGroupBinding
 import com.ndumas.appdt.domain.device.model.Device
-import com.ndumas.appdt.presentation.automation.create.model.RoomGroup // <--- Import Cruciale
+import com.ndumas.appdt.presentation.automation.create.model.RoomGroup
 
 class ActionGroupAdapter(
     private val onDeviceClick: (Device) -> Unit,
@@ -43,18 +44,30 @@ class ActionGroupAdapter(
             binding.tvRoomName.text = group.roomName
 
             binding.layoutDevicesContainer.removeAllViews()
+
             val inflater = LayoutInflater.from(binding.root.context)
+            val context = binding.root.context
 
             group.devices.forEach { device ->
 
                 val deviceView = inflater.inflate(R.layout.item_device_row, binding.layoutDevicesContainer, false)
 
                 val tvName = deviceView.findViewById<TextView>(R.id.tv_name)
+                val tvInfo = deviceView.findViewById<TextView>(R.id.tv_info)
                 val ivIcon = deviceView.findViewById<ImageView>(R.id.iv_icon)
 
                 tvName.text = device.name
+
+                tvInfo.text =
+                    device.type.name
+                        .lowercase()
+                        .replaceFirstChar { it.uppercase() }
+
                 val style = device.type.getUiStyle()
                 ivIcon.setImageResource(style.iconRes)
+
+                val iconColor = ContextCompat.getColor(context, style.activeColorRes)
+                ivIcon.setColorFilter(iconColor)
 
                 deviceView.setOnClickListener { onDeviceClick(device) }
 

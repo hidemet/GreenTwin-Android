@@ -79,6 +79,13 @@ class AutomationCreateViewModel
                     _uiState.update { it.copy(showConflictDialog = false, simulationResult = null) }
                 }
 
+                AutomationCreateUiEvent.CancelAutomationCreation -> {
+                    _uiState.update { AutomationCreateUiState() }
+                    viewModelScope.launch {
+                        _uiEvent.send(AutomationCreateUiEvent.NavigateBackToAutomations)
+                    }
+                }
+
                 else -> {}
             }
         }
@@ -111,12 +118,6 @@ class AutomationCreateViewModel
                                         showConflictDialog = true,
                                     )
                                 }
-
-                                _uiEvent.send(
-                                    AutomationCreateUiEvent.ShowError(
-                                        UiText.DynamicString("DEBUG: Conflitto rilevato"),
-                                    ),
-                                )
                             } else {
                                 performRealSave()
                             }

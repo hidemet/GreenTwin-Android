@@ -39,44 +39,42 @@ class TimeTriggerFragment : Fragment(R.layout.fragment_trigger_time) {
         binding.timePicker.minute = 30
     }
 
-    private fun setupListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+    private fun setupToolbar() {
+        with(binding.includeToolbar.toolbar) {
+            title = "Se"
+            setNavigationOnClickListener { findNavController().popBackStack() }
         }
+    }
 
+    private fun getDayChip(id: Int) = binding.root.findViewById<com.google.android.material.chip.Chip>(id)
+
+    private fun setupListeners() {
+        setupToolbar()
         binding.btnSave.setOnClickListener {
             saveTrigger()
         }
 
         val dayChips =
             listOf(
-                binding.chipMon,
-                binding.chipTue,
-                binding.chipWed,
-                binding.chipThu,
-                binding.chipFri,
-                binding.chipSat,
-                binding.chipSun,
+                getDayChip(R.id.chip_mon),
+                getDayChip(R.id.chip_tue),
+                getDayChip(R.id.chip_wed),
+                getDayChip(R.id.chip_thu),
+                getDayChip(R.id.chip_fri),
+                getDayChip(R.id.chip_sat),
+                getDayChip(R.id.chip_sun),
             )
 
         dayChips.forEach { chip ->
-            chip.setOnCheckedChangeListener { _, _ ->
+            chip?.setOnCheckedChangeListener { _, _ ->
                 updateSaveButtonState()
             }
         }
     }
 
     private fun updateSaveButtonState() {
-        val hasAtLeastOneDaySelected =
-            binding.chipMon.isChecked ||
-                binding.chipTue.isChecked ||
-                binding.chipWed.isChecked ||
-                binding.chipThu.isChecked ||
-                binding.chipFri.isChecked ||
-                binding.chipSat.isChecked ||
-                binding.chipSun.isChecked
-
-        binding.btnSave.isEnabled = hasAtLeastOneDaySelected
+        // Always enable save button when time is selected (days are optional)
+        binding.btnSave.isEnabled = true
     }
 
     private fun saveTrigger() {
@@ -84,13 +82,13 @@ class TimeTriggerFragment : Fragment(R.layout.fragment_trigger_time) {
         val minute = binding.timePicker.minute
 
         val selectedDays = mutableListOf<DayOfWeek>()
-        if (binding.chipMon.isChecked) selectedDays.add(DayOfWeek.MONDAY)
-        if (binding.chipTue.isChecked) selectedDays.add(DayOfWeek.TUESDAY)
-        if (binding.chipWed.isChecked) selectedDays.add(DayOfWeek.WEDNESDAY)
-        if (binding.chipThu.isChecked) selectedDays.add(DayOfWeek.THURSDAY)
-        if (binding.chipFri.isChecked) selectedDays.add(DayOfWeek.FRIDAY)
-        if (binding.chipSat.isChecked) selectedDays.add(DayOfWeek.SATURDAY)
-        if (binding.chipSun.isChecked) selectedDays.add(DayOfWeek.SUNDAY)
+        if (getDayChip(R.id.chip_mon)?.isChecked == true) selectedDays.add(DayOfWeek.MONDAY)
+        if (getDayChip(R.id.chip_tue)?.isChecked == true) selectedDays.add(DayOfWeek.TUESDAY)
+        if (getDayChip(R.id.chip_wed)?.isChecked == true) selectedDays.add(DayOfWeek.WEDNESDAY)
+        if (getDayChip(R.id.chip_thu)?.isChecked == true) selectedDays.add(DayOfWeek.THURSDAY)
+        if (getDayChip(R.id.chip_fri)?.isChecked == true) selectedDays.add(DayOfWeek.FRIDAY)
+        if (getDayChip(R.id.chip_sat)?.isChecked == true) selectedDays.add(DayOfWeek.SATURDAY)
+        if (getDayChip(R.id.chip_sun)?.isChecked == true) selectedDays.add(DayOfWeek.SUNDAY)
 
         val trigger =
             AutomationTrigger.Time(

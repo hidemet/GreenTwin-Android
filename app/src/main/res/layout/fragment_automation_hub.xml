@@ -7,34 +7,21 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/include_toolbar_standard"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_close"
-            app:title="Crea automazione"
-            app:navigationIconTint="@color/tw_gray_900"
-            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
-            android:background="@android:color/transparent" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/include_toolbar"
         app:layout_constraintBottom_toTopOf="@id/layout_footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -85,7 +72,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_add"
-                        app:tint="?attr/colorPrimary"
+                        app:tint="?attr/colorSecondary"
                         android:contentDescription="@null" />
 
                     <TextView
@@ -107,7 +94,7 @@
                 android:visibility="gone"
                 tools:visibility="gone"
                 app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -127,7 +114,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_check_circle"
-                        app:tint="?attr/colorPrimary"
+                        app:tint="?attr/colorSecondary"
                         android:contentDescription="@null" />
 
                     <LinearLayout
@@ -210,7 +197,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_add"
-                        app:tint="?attr/colorPrimary"
+                        app:tint="?attr/colorSecondary"
                         android:contentDescription="@null" />
 
                     <TextView
@@ -232,7 +219,7 @@
                 android:visibility="gone"
                 tools:visibility="gone"
                 app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -251,7 +238,7 @@
                         android:id="@+id/iv_action_icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_check_circle"
+                        android:src="@drawable/ic_settings_remote"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@null" />
 
@@ -305,11 +292,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
-            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Procedi"
-            android:enabled="false"
+            android:enabled="true"
+            android:clickable="true"
             />
     </LinearLayout>
 

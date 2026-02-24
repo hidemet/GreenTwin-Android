@@ -19,51 +19,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="90dp"
-        android:padding="12dp">
+        android:minHeight="88dp"
+        android:padding="16dp">
 
        
        
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_thermostat"
-            app:tint="@color/selector_device_icon"
-            android:padding="10dp"
+            app:tint="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_device_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_device_info" />
 
        
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_device_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="4dp"
+
             tools:text="Termostato"
-            android:textSize="16sp"
-            android:textStyle="bold"
+
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="?attr/colorOnSurface"
+
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/selector_device_text"
+            android:gravity="center_vertical|start"
+
             app:layout_constraintStart_toEndOf="@id/iv_icon"
             app:layout_constraintEnd_toStartOf="@+id/barrier_edit_actions"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tv_device_info"
             app:layout_constraintVertical_chainStyle="packed" />
 
-       
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_device_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
+
             tools:text="21.00 °C"
-            android:textSize="14sp"
+
+            style="@style/TextAppearance.Material3.BodyMedium"
+
             android:maxLines="1"
             android:ellipsize="end"
+
             android:textColor="@color/selector_device_text"
             app:layout_constraintStart_toStartOf="@id/tv_device_name"
             app:layout_constraintEnd_toEndOf="@id/tv_device_name"

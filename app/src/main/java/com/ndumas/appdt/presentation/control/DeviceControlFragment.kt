@@ -1,4 +1,4 @@
-package com.ndumas.appdt.presentation.control.light
+package com.ndumas.appdt.presentation.control
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -16,14 +17,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.ndumas.appdt.R
-import com.ndumas.appdt.databinding.FragmentLightControlBinding
-import com.ndumas.appdt.presentation.control.DeviceControlEvent
-import com.ndumas.appdt.presentation.control.DeviceControlUiEvent
-import com.ndumas.appdt.presentation.control.DeviceControlUiState
-import com.ndumas.appdt.presentation.control.DeviceControlViewModel
-import com.ndumas.appdt.presentation.control.LightMode
+import com.ndumas.appdt.core.ui.SnackbarHelper
+import com.ndumas.appdt.databinding.FragmentDeviceControlBinding
 import com.ndumas.appdt.presentation.control.adapter.SensorGridAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,13 +27,13 @@ import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class LightControlFragment : Fragment() {
-    private var _binding: FragmentLightControlBinding? = null
+class DeviceControlFragment : Fragment() {
+    private var _binding: FragmentDeviceControlBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: DeviceControlViewModel by viewModels()
 
-    private val args: LightControlFragmentArgs by navArgs()
+    private val args: DeviceControlFragmentArgs by navArgs()
 
     private val sensorAdapter = SensorGridAdapter()
 
@@ -67,7 +63,7 @@ class LightControlFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentLightControlBinding.inflate(inflater, container, false)
+        _binding = FragmentDeviceControlBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -90,7 +86,10 @@ class LightControlFragment : Fragment() {
     private fun setupToolbar() {
         binding.btnClose.setOnClickListener { findNavController().popBackStack() }
         binding.btnInfo.setOnClickListener {
-            Snackbar.make(binding.root, "ID Dispositivo: ${args.deviceId}", Snackbar.LENGTH_SHORT).show()
+            val action =
+                DeviceControlFragmentDirections
+                    .actionDeviceControlFragmentToDeviceDetailFragment(args.deviceId)
+            findNavController().navigate(action)
         }
     }
 
@@ -183,10 +182,7 @@ class LightControlFragment : Fragment() {
                     viewModel.uiEvent.collectLatest { event ->
                         when (event) {
                             is DeviceControlUiEvent.ShowError -> {
-                                Snackbar
-                                    .make(binding.root, event.message.asString(requireContext()), Snackbar.LENGTH_LONG)
-                                    .setBackgroundTint(requireContext().getColor(R.color.tw_red_500))
-                                    .show()
+                                SnackbarHelper.showError(binding.root, event.message)
                             }
 
                             DeviceControlUiEvent.NavigateBack -> {
@@ -195,8 +191,8 @@ class LightControlFragment : Fragment() {
 
                             DeviceControlUiEvent.OpenPalette -> {
                                 val action =
-                                    LightControlFragmentDirections
-                                        .actionLightControlFragmentToPaletteBottomSheet(args.deviceId)
+                                    DeviceControlFragmentDirections
+                                        .actionDeviceControlFragmentToPaletteBottomSheet(args.deviceId)
                                 findNavController().navigate(action)
                             }
                         }
@@ -216,10 +212,11 @@ class LightControlFragment : Fragment() {
             binding.rvSensors.isVisible = false
             binding.btnPowerToggle.isVisible = false
 
-            Snackbar
-                .make(binding.root, state.message.asString(context), Snackbar.LENGTH_INDEFINITE)
-                .setAction("Riprova") { viewModel.onEvent(DeviceControlEvent.OnRefresh) }
-                .show()
+            SnackbarHelper.showWithAction(
+                binding.root,
+                state.message,
+                R.string.snackbar_retry,
+            ) { viewModel.onEvent(DeviceControlEvent.OnRefresh) }
             return
         }
 
@@ -263,7 +260,6 @@ class LightControlFragment : Fragment() {
             isOn = true,
             isOnline = state.isOnline,
             powerW = null,
-            automationsCount = state.activeAutomations,
         )
 
         binding.chipGroupStatus.isVisible = true
@@ -318,7 +314,6 @@ class LightControlFragment : Fragment() {
             state.isOn,
             state.isOnline,
             state.currentPowerW,
-            state.activeAutomations,
         )
 
         val showSlider = state.supportsBrightness
@@ -368,6 +363,9 @@ class LightControlFragment : Fragment() {
             it.isEnabled = colorsEnabled
             it.alpha = colorsAlpha
         }
+
+        // Riposiziona il FAB: se i preset sono nascosti, ancoralo allo slider
+        updateFabPosition(state.supportsColor)
     }
 
     private fun renderGenericControl(state: DeviceControlUiState.GenericControl) {
@@ -376,7 +374,6 @@ class LightControlFragment : Fragment() {
             state.isOn,
             state.isOnline,
             state.currentPowerW,
-            state.activeAutomations,
         )
 
         binding.sliderBrightness.isVisible = false
@@ -392,7 +389,7 @@ class LightControlFragment : Fragment() {
 
     private fun renderMediaControl(state: DeviceControlUiState.MediaControl) {
         updateHeader(state.name, state.roomName, state.groupName)
-        updateCommonControls(state.isOn, state.isOnline, state.currentPowerW, state.activeAutomations)
+        updateCommonControls(state.isOn, state.isOnline, state.currentPowerW)
 
         binding.layoutMediaControls.root.isVisible = true
         binding.toggleGroupPower.isVisible = false
@@ -432,7 +429,6 @@ class LightControlFragment : Fragment() {
         isOn: Boolean,
         isOnline: Boolean,
         powerW: Double?,
-        automationsCount: Int,
     ) {
         val context = requireContext()
 
@@ -450,14 +446,6 @@ class LightControlFragment : Fragment() {
             binding.chipConsumption.isVisible = false
         }
 
-        if (automationsCount > 0) {
-            binding.chipAutomation.isVisible = true
-            val label = resources.getQuantityString(R.plurals.automations_count, automationsCount, automationsCount)
-
-            binding.chipAutomation.text = "$automationsCount Automazioni"
-        } else {
-            binding.chipAutomation.isVisible = false
-        }
         if (isOn) {
             binding.btnPowerToggle.setBackgroundColor(context.getColor(R.color.white))
             binding.btnPowerToggle.iconTint = ColorStateList.valueOf(context.getColor(R.color.tw_lime_800))
@@ -468,6 +456,22 @@ class LightControlFragment : Fragment() {
 
             binding.btnPowerToggle.alpha = if (isOnline) 1.0f else 0.4f
         }
+    }
+
+    private fun updateFabPosition(presetsVisible: Boolean) {
+        val params = binding.fabPalette.layoutParams as ConstraintLayout.LayoutParams
+        if (presetsVisible) {
+            // Ancoralo sopra i preset, allineato a sinistra dei preset
+            params.bottomToTop = R.id.flow_presets
+            params.topToBottom = ConstraintLayout.LayoutParams.UNSET
+            params.startToStart = R.id.flow_presets
+        } else {
+            // Ancoralo sotto lo slider, allineato a sinistra dello slider
+            params.bottomToTop = ConstraintLayout.LayoutParams.UNSET
+            params.topToBottom = R.id.slider_brightness
+            params.startToStart = R.id.slider_brightness
+        }
+        binding.fabPalette.layoutParams = params
     }
 
     override fun onDestroyView() {

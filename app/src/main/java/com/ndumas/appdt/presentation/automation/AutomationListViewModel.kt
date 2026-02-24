@@ -3,16 +3,22 @@ package com.ndumas.appdt.presentation.automation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ndumas.appdt.core.common.Result
+import com.ndumas.appdt.core.ui.UiText
 import com.ndumas.appdt.core.util.asUiText
 import com.ndumas.appdt.domain.automation.model.Automation
 import com.ndumas.appdt.domain.automation.model.AutomationAction
 import com.ndumas.appdt.domain.automation.model.AutomationTrigger
 import com.ndumas.appdt.domain.automation.model.SolarEvent
 import com.ndumas.appdt.domain.automation.usecase.GetAutomationsUseCase
+import com.ndumas.appdt.domain.automation.usecase.ToggleAutomationUseCase
 import com.ndumas.appdt.presentation.home.model.DashboardItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -23,23 +29,38 @@ class AutomationListViewModel
     @Inject
     constructor(
         private val getAutomationsUseCase: GetAutomationsUseCase,
+        private val toggleAutomationUseCase: ToggleAutomationUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(AutomationListUiState(isLoading = true))
         val uiState = _uiState.asStateFlow()
 
+        private val _uiEvent = Channel<AutomationListUiEvent>()
+        val uiEvent = _uiEvent.receiveAsFlow()
+
+        private var automationsJob: Job? = null
+
         init {
-            loadAutomations()
+            observeAutomations()
         }
 
         fun onRefresh() {
-            loadAutomations()
+            // Per il refresh, ri-osserviamo le automazioni
+            observeAutomations()
         }
 
-        private fun loadAutomations() {
-            viewModelScope.launch {
-                _uiState.update { it.copy(isLoading = true, error = null) }
+        /**
+         * Osserva le automazioni in modo continuo.
+         * Cancella job precedenti per evitare duplicazioni.
+         */
+        private fun observeAutomations() {
+            automationsJob?.cancel()
+            automationsJob =
+                viewModelScope.launch {
+                    _uiState.update { it.copy(isLoading = true, error = null) }
 
-                getAutomationsUseCase().collect { result ->
+                    // Usa first() per ottenere il valore corrente e fermarsi
+                    val result = getAutomationsUseCase().first()
+
                     when (result) {
                         is Result.Success -> {
                             val items =
@@ -56,6 +77,64 @@ class AutomationListViewModel
 
                         is Result.Error -> {
                             _uiState.update { it.copy(isLoading = false, error = result.error.asUiText()) }
+                        }
+                    }
+
+                    // Dopo il caricamento iniziale, sottoscriviamo per aggiornamenti live
+                    subscribeToAutomationUpdates()
+                }
+        }
+
+        /**
+         * Sottoscrive agli aggiornamenti live delle automazioni (per toggle, ecc.)
+         */
+        private fun subscribeToAutomationUpdates() {
+            viewModelScope.launch {
+                getAutomationsUseCase().collect { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            val items =
+                                result.data.map { automation ->
+                                    DashboardItem.AutomationWidget(
+                                        id = automation.id,
+                                        name = automation.name,
+                                        description = automation.description.ifBlank { generateSummary(automation) },
+                                        isActive = automation.isActive,
+                                    )
+                                }
+                            _uiState.update { it.copy(items = items) }
+                        }
+
+                        is Result.Error -> {
+                            // Non mostrare errori durante gli aggiornamenti live
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Toggle attivazione/disattivazione di un'automazione.
+         */
+        fun onAutomationToggle(
+            automationId: String,
+            isActive: Boolean,
+        ) {
+            viewModelScope.launch {
+                toggleAutomationUseCase(automationId, isActive).collect { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            val message =
+                                if (isActive) {
+                                    UiText.DynamicString("Automazione attivata")
+                                } else {
+                                    UiText.DynamicString("Automazione disattivata")
+                                }
+                            _uiEvent.send(AutomationListUiEvent.ShowToast(message))
+                        }
+
+                        is Result.Error -> {
+                            _uiEvent.send(AutomationListUiEvent.ShowToast(result.error.asUiText()))
                         }
                     }
                 }
@@ -84,7 +163,7 @@ class AutomationListViewModel
                                     else -> "Attiva"
                                 }
 
-                            val targetName = action.deviceName.ifBlank { action.deviceId.takeLast(5) }
+                            val targetName = action.deviceName.ifBlank { action.deviceId.takeLast(5) }.lowercase()
                             "$verb $targetName"
                         }
                     }
@@ -95,3 +174,9 @@ class AutomationListViewModel
             return "$triggerText → $actionText$extra"
         }
     }
+
+sealed interface AutomationListUiEvent {
+    data class ShowToast(
+        val message: UiText,
+    ) : AutomationListUiEvent
+}

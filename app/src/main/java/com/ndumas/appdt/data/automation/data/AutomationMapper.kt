@@ -43,6 +43,36 @@ class AutomationMapper
             )
         }
 
+        fun mapToUpdateRequest(
+            id: String,
+            draft: AutomationDraft,
+        ): AutomationRequestDto {
+            val triggers = draft.trigger?.let { listOf(mapTrigger(it)) } ?: emptyList()
+            val actions = draft.actions.map { mapAction(it) }
+
+            val conditions = mutableListOf<Map<String, Any>>()
+
+            val trigger = draft.trigger
+            if (trigger is AutomationTrigger.Time && trigger.days.isNotEmpty()) {
+                conditions.add(mapDaysToCondition(trigger.days))
+            } else if (trigger is AutomationTrigger.Solar && trigger.days.isNotEmpty()) {
+                conditions.add(mapDaysToCondition(trigger.days))
+            }
+
+            return AutomationRequestDto(
+                automation =
+                    AutomationDto(
+                        id = id,
+                        alias = draft.name,
+                        description = draft.description,
+                        mode = if (draft.isActive) "single" else "off",
+                        trigger = triggers,
+                        condition = conditions,
+                        action = actions,
+                    ),
+            )
+        }
+
         private fun mapTrigger(trigger: AutomationTrigger): TriggerDto =
             when (trigger) {
                 is AutomationTrigger.Time -> {
